@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{0E91CE19-2177-4647-98EE-57DE74A10AC7}</ProjectGuid>
+    <RootNamespace>UserKernelUtilsUStat</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration">
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(SolutionDir)BuildSystem\PropsFiles\ApdUserCommon.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <RuntimeTypeInfo Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</RuntimeTypeInfo>
+      <RuntimeTypeInfo Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</RuntimeTypeInfo>
+      <RuntimeTypeInfo Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</RuntimeTypeInfo>
+      <RuntimeTypeInfo Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</RuntimeTypeInfo>
+      <RuntimeLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\UserKernelUtilsK\CriticalSection.cpp" />
+    <ClCompile Include="..\UserKernelUtilsK\EnumProcess.cpp" />
+    <ClCompile Include="..\UserKernelUtilsK\EnumProcMemory.cpp" />
+    <ClCompile Include="..\UserKernelUtilsK\FileUtils.cpp" />
+    <ClCompile Include="..\UserKernelUtilsK\LinkListLib.cpp" />
+    <ClCompile Include="..\UserKernelUtilsK\MapFile.cpp" />
+    <ClCompile Include="..\UserKernelUtilsK\MemPolMgr.cpp" />
+    <ClCompile Include="..\UserKernelUtilsK\MountMgrLib.cpp" />
+    <ClCompile Include="..\UserKernelUtilsK\MultiStringUtils.cpp" />
+    <ClCompile Include="..\UserKernelUtilsK\ParsePelmp.cpp" />
+    <ClCompile Include="..\UserKernelUtilsK\RegUtils.cpp" />
+    <ClCompile Include="..\UserKernelUtilsK\SecurityUtils.cpp" />
+    <ClCompile Include="..\UserKernelUtilsK\Utils.cpp" />
+    <ClCompile Include="..\UserKernelUtilsK\WindowsVersion.cpp" />
+    <ClCompile Include="Precompiled.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\UserKernelUtilsK\CriticalSection.h" />
+    <ClInclude Include="..\UserKernelUtilsK\EnumProcess.h" />
+    <ClInclude Include="..\UserKernelUtilsK\EnumProcMemory.h" />
+    <ClInclude Include="..\UserKernelUtilsK\FileUtils.h" />
+    <ClInclude Include="..\UserKernelUtilsK\LinkListLib.h" />
+    <ClInclude Include="..\UserKernelUtilsK\MapFile.h" />
+    <ClInclude Include="..\UserKernelUtilsK\MemPolMgr.h" />
+    <ClInclude Include="..\UserKernelUtilsK\MountMgrLib.h" />
+    <ClInclude Include="..\UserKernelUtilsK\MultiStringUtils.h" />
+    <ClInclude Include="..\UserKernelUtilsK\ParsePelmp.h" />
+    <ClInclude Include="..\UserKernelUtilsK\RegUtils.h" />
+    <ClInclude Include="..\UserKernelUtilsK\SecurityUtils.h" />
+    <ClInclude Include="..\UserKernelUtilsK\Utils.h" />
+    <ClInclude Include="..\UserKernelUtilsK\WindowsVersion.h" />
+    <ClInclude Include="Precompiled.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="$(SolutionDir)BuildSystem\PropsFiles\WPP.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

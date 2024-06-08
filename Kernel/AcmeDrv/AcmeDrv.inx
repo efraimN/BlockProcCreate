@@ -1,0 +1,27 @@
+;;;
+;;; AcmeDrv
+;;;
+
+[Version]
+Signature   = "$Windows NT$"
+Class       = Unknown
+ClassGuid   = {4d36e97e-e325-11ce-bfc1-08002be10318}
+Provider    = %CompanyName%
+PnpLockdown=1
+
+CatalogFile=AcmeDrv.cat
+CatalogFile.NTAMD64 = AcmeDrv.cat
+ 
+[DestinationDirs]
+DefaultDestDir         = 12
+
+;;
+;; Default install sections
+;;
+
+[DefaultInstall.NTAMD64]
+OptionDesc = %DriverName%
+
+[Strings]
+CompanyName                 = "AcmeDrv Solutions"
+DriverName                  = "AcmeDrv"

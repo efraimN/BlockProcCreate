@@ -1,0 +1,4 @@
+
+#include <GenResource.rc1>
+#include "Resource.rc"
+//#include MesageLoggerIncludes

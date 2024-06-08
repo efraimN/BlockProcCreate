@@ -1,0 +1,93 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33529.622
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CodeTesterPreProc", "Test\CodeTesterPreProc\CodeTesterPreProc.vcxproj", "{31BEBE6C-166B-410E-9FC6-201565A284FC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{776031D8-A6A9-4FF2-A824-842DDA8B2DBF} = {776031D8-A6A9-4FF2-A824-842DDA8B2DBF}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildSystem", "BuildSystem", "{2DF89FC8-FA36-4253-A93E-22FAD500F991}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Includes", "Includes", "{849A3D1E-75D5-421D-87F5-73D8E1C06689}"
+	ProjectSection(SolutionItems) = preProject
+		BuildSystem\Includes\CastMacros.h = BuildSystem\Includes\CastMacros.h
+		BuildSystem\Includes\CommonMacros.h = BuildSystem\Includes\CommonMacros.h
+		BuildSystem\Includes\GenIncludesK.h = BuildSystem\Includes\GenIncludesK.h
+		BuildSystem\Includes\GenIncludesU.h = BuildSystem\Includes\GenIncludesU.h
+		BuildSystem\Includes\GenResource.rc1 = BuildSystem\Includes\GenResource.rc1
+		BuildSystem\Includes\oem.h = BuildSystem\Includes\oem.h
+		BuildSystem\Includes\ProjectVer.h = BuildSystem\Includes\ProjectVer.h
+		BuildSystem\Includes\WPP_Guids.h = BuildSystem\Includes\WPP_Guids.h
+		BuildSystem\Includes\WPPControl.h = BuildSystem\Includes\WPPControl.h
+		BuildSystem\Includes\WppIncludes.h = BuildSystem\Includes\WppIncludes.h
+		BuildSystem\Includes\WppUseNtdllFunctions.h = BuildSystem\Includes\WppUseNtdllFunctions.h
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "KernelUserCommon", "KernelUserCommon", "{BCF9E6F5-0513-4ACF-8FF9-A0EB704B9190}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Includes", "Includes", "{BC87C2A1-023D-404C-94AA-3D4C4E81E028}"
+	ProjectSection(SolutionItems) = preProject
+		KernelUserCommon\Includes\Debug.h = KernelUserCommon\Includes\Debug.h
+		KernelUserCommon\Includes\IMapFileInt.h = KernelUserCommon\Includes\IMapFileInt.h
+		KernelUserCommon\Includes\IUserKernelUtils.h = KernelUserCommon\Includes\IUserKernelUtils.h
+		KernelUserCommon\Includes\NtDllFuncInc.h = KernelUserCommon\Includes\NtDllFuncInc.h
+		KernelUserCommon\Includes\NtDllInc.h = KernelUserCommon\Includes\NtDllInc.h
+		KernelUserCommon\Includes\RtlNtIncludes.h = KernelUserCommon\Includes\RtlNtIncludes.h
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{FBE3BD43-9634-4269-9D74-812AFD2AD494}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UserKernelUtils", "UserKernelUtils", "{51ED4265-7EE0-4A95-AFA9-AEEE77FA64B2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UserKernelUtilsU", "UserKernelUtilsU", "{675CD6BD-4AD3-441F-9F70-CF1EAA8871D7}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UserKernelUtilsU", "KernelUserCommon\Libs\UserKernelUtils\UserKernelUtilsU\UserKernelUtilsU.vcxproj", "{776031D8-A6A9-4FF2-A824-842DDA8B2DBF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{43162B43-EA09-4DB4-92AC-DBD9437B0D85}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CodeTesterPreProc", "CodeTesterPreProc", "{B181AC9C-162B-4EFB-85F2-DAD2F003C097}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{31BEBE6C-166B-410E-9FC6-201565A284FC}.Debug|x64.ActiveCfg = Debug|x64
+		{31BEBE6C-166B-410E-9FC6-201565A284FC}.Debug|x64.Build.0 = Debug|x64
+		{31BEBE6C-166B-410E-9FC6-201565A284FC}.Debug|x86.ActiveCfg = Debug|Win32
+		{31BEBE6C-166B-410E-9FC6-201565A284FC}.Debug|x86.Build.0 = Debug|Win32
+		{31BEBE6C-166B-410E-9FC6-201565A284FC}.Release|x64.ActiveCfg = Release|x64
+		{31BEBE6C-166B-410E-9FC6-201565A284FC}.Release|x64.Build.0 = Release|x64
+		{31BEBE6C-166B-410E-9FC6-201565A284FC}.Release|x86.ActiveCfg = Release|Win32
+		{31BEBE6C-166B-410E-9FC6-201565A284FC}.Release|x86.Build.0 = Release|Win32
+		{776031D8-A6A9-4FF2-A824-842DDA8B2DBF}.Debug|x64.ActiveCfg = Debug|x64
+		{776031D8-A6A9-4FF2-A824-842DDA8B2DBF}.Debug|x64.Build.0 = Debug|x64
+		{776031D8-A6A9-4FF2-A824-842DDA8B2DBF}.Debug|x86.ActiveCfg = Debug|Win32
+		{776031D8-A6A9-4FF2-A824-842DDA8B2DBF}.Debug|x86.Build.0 = Debug|Win32
+		{776031D8-A6A9-4FF2-A824-842DDA8B2DBF}.Release|x64.ActiveCfg = Release|x64
+		{776031D8-A6A9-4FF2-A824-842DDA8B2DBF}.Release|x64.Build.0 = Release|x64
+		{776031D8-A6A9-4FF2-A824-842DDA8B2DBF}.Release|x86.ActiveCfg = Release|Win32
+		{776031D8-A6A9-4FF2-A824-842DDA8B2DBF}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{31BEBE6C-166B-410E-9FC6-201565A284FC} = {B181AC9C-162B-4EFB-85F2-DAD2F003C097}
+		{849A3D1E-75D5-421D-87F5-73D8E1C06689} = {2DF89FC8-FA36-4253-A93E-22FAD500F991}
+		{BC87C2A1-023D-404C-94AA-3D4C4E81E028} = {BCF9E6F5-0513-4ACF-8FF9-A0EB704B9190}
+		{FBE3BD43-9634-4269-9D74-812AFD2AD494} = {BCF9E6F5-0513-4ACF-8FF9-A0EB704B9190}
+		{51ED4265-7EE0-4A95-AFA9-AEEE77FA64B2} = {FBE3BD43-9634-4269-9D74-812AFD2AD494}
+		{675CD6BD-4AD3-441F-9F70-CF1EAA8871D7} = {51ED4265-7EE0-4A95-AFA9-AEEE77FA64B2}
+		{776031D8-A6A9-4FF2-A824-842DDA8B2DBF} = {675CD6BD-4AD3-441F-9F70-CF1EAA8871D7}
+		{B181AC9C-162B-4EFB-85F2-DAD2F003C097} = {43162B43-EA09-4DB4-92AC-DBD9437B0D85}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {62EC5423-33DA-4776-9E9E-A308D5ED4D3D}
+	EndGlobalSection
+EndGlobal

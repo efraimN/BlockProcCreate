@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Code based on https://www.itprotoday.com/microsoft-visual-studio/wpp-tracing-visual-c-2010-projects -->
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="UserMacros">
+    <WdkDir>$(SolutionDir)BuildSystem\</WdkDir>
+  </PropertyGroup>
+  <PropertyGroup>
+      <ExtensionsToDeleteOnClean>$(ExtensionsToDeleteOnClean);*.tmh</ExtensionsToDeleteOnClean>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TraceWppSwitch Condition="'$(TargetExt)'=='.sys'">-km</TraceWppSwitch>
+    <TraceWppSwitch Condition="'$(TargetExt)'=='.dll'">-dll</TraceWppSwitch>
+    <TraceWppSwitch Condition="'$(TargetExt)'=='.slib'">-km</TraceWppSwitch>
+    <WPPDir Condition="'$(TargetExt)'=='.sys'">Kernel</WPPDir>
+    <WPPDir Condition="'$(TargetExt)'!='.sys'">User</WPPDir>
+  </PropertyGroup>
+  <ItemGroup>
+    <CoreCppClean Include="@(CoreCppClean);$(ProjectDir)">
+        <FilePatternsToDelete>*.tmh</FilePatternsToDelete>
+    </CoreCppClean>
+  </ItemGroup>
+  <ItemGroup>
+    <TraceWppSources Include="@(ClCompile)" Exclude="Precompiled.cpp" />
+  </ItemGroup>
+  <Target Name="TraceWpp" BeforeTargets="ClCompile" Inputs="@(TraceWppSources)" Outputs="@(TraceWppSources -> '$(IntDir)%(Filename)%(extension).tmh')" >
+    <Message Text="Updating TMH files" />
+    <Exec 
+      Command="$(WdkDir)WppConfig\Tracewpp.exe -cfgdir:$(WdkDir)WppConfig\Rev1 -ext:.c.cc.h.cpp -preserveext:.c.h.cpp -odir:$(IntDir) $(TraceWppSwitch) -func:LOG_OUT(LEVEL,MSG,...) @(TraceWppSources, ' ')" />
+  </Target>
+  <Target Name="TracePdb" AfterTargets="Link">
+    <Message Text="Working on TMF and MOF files" />
+    <Exec 
+      Command="$(WdkDir)WppConfig\TracePdb.exe -f $(BuildOutput)sym\$(TargetName).pdb -p &quot;$(SolutionDir)Output\$(Configuration)\WPPDir\$(WPPDir)&quot; -c > nul" />
+  </Target>
+</Project>

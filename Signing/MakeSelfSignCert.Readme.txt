@@ -1,0 +1,6 @@
+To make a self signed certificate use the following (needs admin cmd):
+certreq -new Signing.inf CARoot.req
+certutil -p "" -f -v -privatekey  -exportpfx "Acme Ltd Test" CARoot.pfx  ExtendedProperties,ExportParameters
+
+If needed, do changes to the "Signing.inf" file that controls the certreq.exe aplication (or use a modified copy of "Signing.inf")
+
