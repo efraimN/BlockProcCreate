@@ -96,6 +96,7 @@ void CProcCreateCallback::ProcessNotifyCallBack(
 	}
 
 	Pid = DOWNCASTHANDLE(ProcessId);
+	// Skip unsuccessful creation process 
 	if (CreateInfo)
 	{
 		//////////////////
@@ -118,24 +119,35 @@ void CProcCreateCallback::ProcessNotifyCallBack(
 		if (!Tmp)
 		{
 			LOG_OUT(DBG_ERROR, "IProcessUtils::GetDosFullPathName Failed ProcessPid %d", Pid);
+			goto Leave;
 		}
 		Tmp1.Buffer = new ('1pmt') WCHAR[Tmp->MaximumLength];
 		if (!Tmp1.Buffer)
 		{
 			LOG_OUT(DBG_ERROR, "new WCHAR Failed ProcessPid %d", Pid);
+			goto Leave;
 		}
 		Tmp1.MaximumLength = Tmp->MaximumLength;
+		Tmp1.Length = 0;
 		status = RtlUnicodeStringCopy(&Tmp1, Tmp);
 		if (!NT_SUCCESS(status))
 		{
-			LOG_OUT(DBG_ERROR, "RtlUnicodeStringCopy Failed m_ProccesDosExecNameBuff %S status 0x%08X", Tmp->Buffer, status);
+			LOG_OUT(DBG_ERROR, "RtlUnicodeStringCopy Failed m_ProccesDosExecNameBuff %S ProcessPid %d status 0x%08X", 
+				Tmp->Buffer, Pid, status);
+			goto Leave;
 		}
-		for (UINT Index = 0; Index < (Tmp->Length / sizeof(WCHAR)); ++Index)
+		for (UINT Index = 0; Index < (Tmp1.Length / sizeof(WCHAR)); ++Index)
 		{
-			Tmp1.Buffer[Index] = RtlDowncaseUnicodeChar(Tmp->Buffer[Index]);
+			Tmp1.Buffer[Index] = RtlDowncaseUnicodeChar(Tmp1.Buffer[Index]);
 		}
-		LOG_OUT(DBG_ERROR, "***Found Proccess %S***", Tmp1.Buffer);
+		LOG_OUT(DBG_ERROR, "***Found Proccess %S ProcessPid %d***", Tmp1.Buffer, Pid);
 
+		// TODO check bounds before running wcsstr
+		if (wcsstr(Tmp1.Buffer, L"notepad"))
+		{
+			LOG_OUT(DBG_ERROR, "***Going to avoid process creation ***");
+			CreateInfo->CreationStatus = STATUS_UNSUCCESSFUL;
+		}
 	}
 	else
 	{
