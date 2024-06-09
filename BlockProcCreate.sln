@@ -78,6 +78,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Includes", "Includes", "{1F
 	ProjectSection(SolutionItems) = preProject
 		Kernel\Libs\Includes\DriverEntryLib.h = Kernel\Libs\Includes\DriverEntryLib.h
 		Kernel\Libs\Includes\KernelCrt.h = Kernel\Libs\Includes\KernelCrt.h
+		Kernel\Libs\Includes\KernelUtilsLib.h = Kernel\Libs\Includes\KernelUtilsLib.h
 		Kernel\Libs\Includes\NtDDKUndoc.h = Kernel\Libs\Includes\NtDDKUndoc.h
 	EndProjectSection
 EndProject

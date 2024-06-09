@@ -18,4 +18,35 @@ namespace KernelUtilsLib
 		extern UNICODE_STRING m_Attitude;
 	};
 
+	class IProcessUtils
+	{
+	public:
+
+		static
+		IProcessUtils
+		*GetNewInstance(
+			PEPROCESS ProcessObj
+		);
+
+		static
+		VOID
+		ReleaseInstance(
+			IProcessUtils* Instance
+		);
+
+		virtual
+		PUNICODE_STRING
+		GetNtFullPathName(
+		) = 0;
+
+		virtual
+		PUNICODE_STRING
+		GetDosFullPathName(
+		) = 0;
+
+	protected:
+		IProcessUtils() {};
+		virtual ~IProcessUtils() {};
+	private:
+	};
 };

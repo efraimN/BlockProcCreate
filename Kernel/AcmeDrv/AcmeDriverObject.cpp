@@ -4,6 +4,7 @@
 #include <DriverEntryLib.h>
 #include "AcmeDriverObject.h"
 
+#include ".\ProcessCreation\ProcessCreationCallBack.h"
 
 
 CDriverObjectInt* CDriverObjectInt::GetInstance()
@@ -20,6 +21,7 @@ NTSTATUS CMyDriverObject::DoStartStop(BOOL Start_Stop)
 	auto Start = [&]()->NTSTATUS
 	{
 		/* Add initialization for each module used */
+		CProcCreateCallback::GetInstance()->Start();
 
 
 		status = STATUS_SUCCESS;
@@ -30,6 +32,7 @@ NTSTATUS CMyDriverObject::DoStartStop(BOOL Start_Stop)
 	auto Stop = [&]()
 	{
 		//Here do de-init of modules (usually in inverse init order)
+		CProcCreateCallback::GetInstance()->Stop();
 
 	};
 

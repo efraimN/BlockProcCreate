@@ -22,6 +22,9 @@
     <Filter Include="ImageLoadingCallBack\DllInject">
       <UniqueIdentifier>{f6f5c6d5-75f8-4697-8e60-129ecaa0c244}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ProcessCreation">
+      <UniqueIdentifier>{22036c9d-ad44-4d1a-b612-7caccaa7d1b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Precompiled.h">
@@ -36,6 +39,9 @@
     <ClInclude Include="AcmeDriverObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ProcessCreation\ProcessCreationCallBack.h">
+      <Filter>ProcessCreation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Precompiled.cpp">
@@ -46,6 +52,9 @@
     </ClCompile>
     <ClCompile Include="AcmeDriverObject.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcessCreation\ProcessCreationCallBack.cpp">
+      <Filter>ProcessCreation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
