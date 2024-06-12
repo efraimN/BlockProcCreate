@@ -102,6 +102,7 @@
   <ItemGroup>
     <ClCompile Include="AcmeDriverObject.cpp" />
     <ClCompile Include="AcmeDrv.cpp" />
+    <ClCompile Include="ImageLoading\ImageLoadingCallBack.cpp" />
     <ClCompile Include="Precompiled.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -109,12 +110,16 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="ProcessCreation\ProcessCreationCallBack.cpp" />
+    <ClCompile Include="ProcessCreation\ProcessList.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AcmeDriverObject.h" />
     <ClInclude Include="AcmeDrv.h" />
+    <ClInclude Include="ImageLoading\ImageLoadingCallBack.h" />
+    <ClInclude Include="ImageLoading\ImageLoadingCallBackClient.h" />
     <ClInclude Include="Precompiled.h" />
     <ClInclude Include="ProcessCreation\ProcessCreationCallBack.h" />
+    <ClInclude Include="ProcessCreation\ProcessList.h" />
     <ClInclude Include="Resources\Resource.h" />
   </ItemGroup>
   <ItemGroup>

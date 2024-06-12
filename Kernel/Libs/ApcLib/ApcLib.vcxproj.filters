@@ -14,13 +14,10 @@
     <ClInclude Include="Precompiled.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FileProcessUtils.h">
+    <ClInclude Include="ApcLib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\KernelUserCommon\Libs\UserKernelUtils\UserKernelUtilsK\Precompiled.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\KernelUserCommon\Libs\UserKernelUtils\UserKernelUtilsK\RegUtils.h">
+    <ClInclude Include="ApcLibAsm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -28,14 +25,16 @@
     <ClCompile Include="Precompiled.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RegistryUtil.cpp">
+    <ClCompile Include="ApcLib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FileProcessUtils.cpp">
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="ApcLibAsm64.asm">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\KernelUserCommon\Libs\UserKernelUtils\UserKernelUtilsK\RegUtils.cpp">
+    </MASM>
+    <MASM Include="ApcLibAsm32.asm">
       <Filter>Source Files</Filter>
-    </ClCompile>
+    </MASM>
   </ItemGroup>
 </Project>

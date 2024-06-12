@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CodeTester", "Test\CodeTester\CodeTester.vcxproj", "{5A51F0CB-38BE-472C-B2C3-6BD4605E159E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{593671CB-D68C-4FC6-BC5C-25C06EB467E3} = {593671CB-D68C-4FC6-BC5C-25C06EB467E3}
+		{776031D8-A6A9-4FF2-A824-842DDA8B2DBF} = {776031D8-A6A9-4FF2-A824-842DDA8B2DBF}
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildSystem", "BuildSystem", "{2DF89FC8-FA36-4253-A93E-22FAD500F991}"
@@ -30,7 +31,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Includes", "Includes", "{BC87C2A1-023D-404C-94AA-3D4C4E81E028}"
 	ProjectSection(SolutionItems) = preProject
 		KernelUserCommon\Includes\Debug.h = KernelUserCommon\Includes\Debug.h
-		KernelUserCommon\Includes\IMapFileInt.h = KernelUserCommon\Includes\IMapFileInt.h
 		KernelUserCommon\Includes\IUserKernelUtils.h = KernelUserCommon\Includes\IUserKernelUtils.h
 		KernelUserCommon\Includes\NtDllFuncInc.h = KernelUserCommon\Includes\NtDllFuncInc.h
 		KernelUserCommon\Includes\NtDllInc.h = KernelUserCommon\Includes\NtDllInc.h
@@ -105,6 +105,20 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UserKernelUtilsU", "KernelUserCommon\Libs\UserKernelUtils\UserKernelUtilsU\UserKernelUtilsU.vcxproj", "{776031D8-A6A9-4FF2-A824-842DDA8B2DBF}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UserKernelUtilsK", "KernelUserCommon\Libs\UserKernelUtils\UserKernelUtilsK\UserKernelUtilsK.vcxproj", "{4B8F6F1B-864D-4EAA-8D4E-29820743E1C7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IUserKernelUtils", "IUserKernelUtils", "{27CC386C-62F0-4B9F-910B-C36FA859AFEA}"
+	ProjectSection(SolutionItems) = preProject
+		KernelUserCommon\Includes\IUserKernelUtils\ICriticalSectionInt.h = KernelUserCommon\Includes\IUserKernelUtils\ICriticalSectionInt.h
+		KernelUserCommon\Includes\IUserKernelUtils\IFileUtilsInt.h = KernelUserCommon\Includes\IUserKernelUtils\IFileUtilsInt.h
+		KernelUserCommon\Includes\IUserKernelUtils\ILinkListLibInt.h = KernelUserCommon\Includes\IUserKernelUtils\ILinkListLibInt.h
+		KernelUserCommon\Includes\IUserKernelUtils\IMapFileInt.h = KernelUserCommon\Includes\IUserKernelUtils\IMapFileInt.h
+		KernelUserCommon\Includes\IUserKernelUtils\IRegUtilsInt.h = KernelUserCommon\Includes\IUserKernelUtils\IRegUtilsInt.h
+		KernelUserCommon\Includes\IUserKernelUtils\IUtilsInt.h = KernelUserCommon\Includes\IUserKernelUtils\IUtilsInt.h
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApcLib", "ApcLib", "{B6FAD9C0-8BEC-4312-8F1B-002D41E075C4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ApcLib", "Kernel\Libs\ApcLib\ApcLib.vcxproj", "{600E0B22-5179-4CA9-BD80-F6CC63F7ABA3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -198,6 +212,18 @@ Global
 		{4B8F6F1B-864D-4EAA-8D4E-29820743E1C7}.Release|x86.ActiveCfg = Release|Win32
 		{4B8F6F1B-864D-4EAA-8D4E-29820743E1C7}.Release|x86.Build.0 = Release|Win32
 		{4B8F6F1B-864D-4EAA-8D4E-29820743E1C7}.Release|x86.Deploy.0 = Release|Win32
+		{600E0B22-5179-4CA9-BD80-F6CC63F7ABA3}.Debug|x64.ActiveCfg = Debug|x64
+		{600E0B22-5179-4CA9-BD80-F6CC63F7ABA3}.Debug|x64.Build.0 = Debug|x64
+		{600E0B22-5179-4CA9-BD80-F6CC63F7ABA3}.Debug|x64.Deploy.0 = Debug|x64
+		{600E0B22-5179-4CA9-BD80-F6CC63F7ABA3}.Debug|x86.ActiveCfg = Debug|Win32
+		{600E0B22-5179-4CA9-BD80-F6CC63F7ABA3}.Debug|x86.Build.0 = Debug|Win32
+		{600E0B22-5179-4CA9-BD80-F6CC63F7ABA3}.Debug|x86.Deploy.0 = Debug|Win32
+		{600E0B22-5179-4CA9-BD80-F6CC63F7ABA3}.Release|x64.ActiveCfg = Release|x64
+		{600E0B22-5179-4CA9-BD80-F6CC63F7ABA3}.Release|x64.Build.0 = Release|x64
+		{600E0B22-5179-4CA9-BD80-F6CC63F7ABA3}.Release|x64.Deploy.0 = Release|x64
+		{600E0B22-5179-4CA9-BD80-F6CC63F7ABA3}.Release|x86.ActiveCfg = Release|Win32
+		{600E0B22-5179-4CA9-BD80-F6CC63F7ABA3}.Release|x86.Build.0 = Release|Win32
+		{600E0B22-5179-4CA9-BD80-F6CC63F7ABA3}.Release|x86.Deploy.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -228,6 +254,9 @@ Global
 		{25675865-0CA3-4BEF-88A7-980AA9D170F5} = {51ED4265-7EE0-4A95-AFA9-AEEE77FA64B2}
 		{776031D8-A6A9-4FF2-A824-842DDA8B2DBF} = {675CD6BD-4AD3-441F-9F70-CF1EAA8871D7}
 		{4B8F6F1B-864D-4EAA-8D4E-29820743E1C7} = {25675865-0CA3-4BEF-88A7-980AA9D170F5}
+		{27CC386C-62F0-4B9F-910B-C36FA859AFEA} = {BC87C2A1-023D-404C-94AA-3D4C4E81E028}
+		{B6FAD9C0-8BEC-4312-8F1B-002D41E075C4} = {978D4D16-AC25-456F-848F-FCF1915A5C7E}
+		{600E0B22-5179-4CA9-BD80-F6CC63F7ABA3} = {B6FAD9C0-8BEC-4312-8F1B-002D41E075C4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E0C749A3-EEDB-43D3-9BF6-4FC29075705E}

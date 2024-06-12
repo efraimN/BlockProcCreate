@@ -67,10 +67,12 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\UserKernelUtilsK\CriticalSection.cpp" />
     <ClCompile Include="..\UserKernelUtilsK\FileUtils.cpp" />
+    <ClCompile Include="..\UserKernelUtilsK\LinkListLib.cpp" />
     <ClCompile Include="..\UserKernelUtilsK\MapFile.cpp" />
+    <ClCompile Include="..\UserKernelUtilsK\MemPolMgr.cpp" />
     <ClCompile Include="..\UserKernelUtilsK\RegUtils.cpp" />
-    <ClCompile Include="..\UserKernelUtilsK\Utils.cpp" />
     <ClCompile Include="Precompiled.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -79,10 +81,12 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\UserKernelUtilsK\CriticalSection.h" />
     <ClInclude Include="..\UserKernelUtilsK\FileUtils.h" />
+    <ClInclude Include="..\UserKernelUtilsK\LinkListLib.h" />
     <ClInclude Include="..\UserKernelUtilsK\MapFile.h" />
+    <ClInclude Include="..\UserKernelUtilsK\MemPolMgr.h" />
     <ClInclude Include="..\UserKernelUtilsK\RegUtils.h" />
-    <ClInclude Include="..\UserKernelUtilsK\Utils.h" />
     <ClInclude Include="Precompiled.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -16,14 +16,14 @@
     <Filter Include="Driver Files">
       <UniqueIdentifier>{5b737b3c-62a6-440e-9bb2-7adcb2683038}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImageLoadingCallBack">
-      <UniqueIdentifier>{58a86715-9d3e-461d-9cce-774c83882ff0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ImageLoadingCallBack\DllInject">
-      <UniqueIdentifier>{f6f5c6d5-75f8-4697-8e60-129ecaa0c244}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ProcessCreation">
       <UniqueIdentifier>{22036c9d-ad44-4d1a-b612-7caccaa7d1b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImageLoading">
+      <UniqueIdentifier>{58a86715-9d3e-461d-9cce-774c83882ff0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImageLoading\DllInject">
+      <UniqueIdentifier>{f6f5c6d5-75f8-4697-8e60-129ecaa0c244}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -42,6 +42,15 @@
     <ClInclude Include="ProcessCreation\ProcessCreationCallBack.h">
       <Filter>ProcessCreation</Filter>
     </ClInclude>
+    <ClInclude Include="ImageLoading\ImageLoadingCallBack.h">
+      <Filter>ImageLoading</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageLoading\ImageLoadingCallBackClient.h">
+      <Filter>ImageLoading</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessCreation\ProcessList.h">
+      <Filter>ProcessCreation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Precompiled.cpp">
@@ -54,6 +63,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ProcessCreation\ProcessCreationCallBack.cpp">
+      <Filter>ProcessCreation</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageLoading\ImageLoadingCallBack.cpp">
+      <Filter>ImageLoading</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcessCreation\ProcessList.cpp">
       <Filter>ProcessCreation</Filter>
     </ClCompile>
   </ItemGroup>

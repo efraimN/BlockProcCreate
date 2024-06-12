@@ -5,6 +5,8 @@
 #include "AcmeDriverObject.h"
 
 #include ".\ProcessCreation\ProcessCreationCallBack.h"
+#include ".\ImageLoading\ImageLoadingCallBack.h"
+
 
 
 CDriverObjectInt* CDriverObjectInt::GetInstance()
@@ -22,6 +24,7 @@ NTSTATUS CMyDriverObject::DoStartStop(BOOL Start_Stop)
 	{
 		/* Add initialization for each module used */
 		CProcCreateCallback::GetInstance()->Start();
+		CImageLoadingCallBack::GetInstance()->Start();
 
 
 		status = STATUS_SUCCESS;
@@ -32,6 +35,7 @@ NTSTATUS CMyDriverObject::DoStartStop(BOOL Start_Stop)
 	auto Stop = [&]()
 	{
 		//Here do de-init of modules (usually in inverse init order)
+		CImageLoadingCallBack::GetInstance()->Stop();
 		CProcCreateCallback::GetInstance()->Stop();
 
 	};

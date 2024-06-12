@@ -21,13 +21,19 @@
     <ClCompile Include="..\UserKernelUtilsK\MapFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\UserKernelUtilsK\Utils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\UserKernelUtilsK\FileUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\UserKernelUtilsK\RegUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\UserKernelUtilsK\LinkListLib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\UserKernelUtilsK\CriticalSection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\UserKernelUtilsK\MemPolMgr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -38,13 +44,19 @@
     <ClInclude Include="..\UserKernelUtilsK\MapFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\UserKernelUtilsK\Utils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\UserKernelUtilsK\FileUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\UserKernelUtilsK\RegUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\UserKernelUtilsK\LinkListLib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\UserKernelUtilsK\CriticalSection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\UserKernelUtilsK\MemPolMgr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -16,6 +16,9 @@
     <Filter Include="TestWrappers">
       <UniqueIdentifier>{13ec71db-1094-4c4f-ad77-838be3a47c24}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TestWrappers\UserKernelUtilsLib">
+      <UniqueIdentifier>{369cd805-705e-4d5c-8920-8d02f57b9fe4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resources\Resource.h">
@@ -46,6 +49,12 @@
     </ClCompile>
     <ClCompile Include="CodeTester.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestWrappers\UserKernelUtilsLib\LinkListTest.cpp">
+      <Filter>TestWrappers\UserKernelUtilsLib</Filter>
+    </ClCompile>
+    <ClCompile Include="TestWrappers\UserKernelUtilsLib\MemPoolMgrTest.cpp">
+      <Filter>TestWrappers\UserKernelUtilsLib</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

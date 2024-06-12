@@ -1,6 +1,5 @@
 #include <GenIncludesU.h>
 
-// #include "..\Utils\WriteFile.h"
 
 #include <vector>
 #include <filesystem>
@@ -26,7 +25,7 @@ BOOL GetMemPtrAndLengthFromPath(char* FilePath, PVOID* FileMemPtr, ULONG* FileLe
 
 	RtlInitUnicodeString(&FilePathU, FilePathW);
 
-	if (!UserKernelUtilsLib::CUtilsInt::GetInstance()->MapFileIntoMem(&FilePathU, FileMemPtr, FileLength, TRUE))
+	if (!UserKernelUtilsLib::IMapFileInt::GetInstance()->MapFileIntoMem(&FilePathU, FileMemPtr, FileLength, TRUE))
 	{
 		goto Leave;
 	}
