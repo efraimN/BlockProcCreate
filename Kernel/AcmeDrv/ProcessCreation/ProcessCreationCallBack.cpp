@@ -2,6 +2,7 @@
 #include <WppIncludes.h>
 
 #include "ProcessCreationCallBack.h"
+#include "ProcessList.h"
 
 #include <KernelUtilsLib.h>
 
@@ -82,13 +83,9 @@ void CProcCreateCallback::ProcessNotifyCallBack(
 	_In_opt_ PPS_CREATE_NOTIFY_INFO CreateInfo
 )
 {
-	KernelUtilsLib::IProcessUtils* pProcesssUtils = NULL;
-	PUNICODE_STRING Tmp;
-	UNICODE_STRING Tmp1;
+	CProcessList* pProcessList = NULL;
+	ProcessDataElement* pProcessListElement = NULL;
 	DWORD Pid;
-	NTSTATUS status;
-
-	Tmp1.Buffer = NULL;
 	// If ProcessId is 0, then a kernel-mode driver image is being loaded, we're not interested in those, skip.
 	if (!ProcessId)
 	{
@@ -97,6 +94,7 @@ void CProcCreateCallback::ProcessNotifyCallBack(
 
 	Pid = DOWNCASTHANDLE(ProcessId);
 	// Skip unsuccessful creation process 
+	pProcessList = CProcessList::GetInstance();
 	if (CreateInfo)
 	{
 		//////////////////
@@ -109,45 +107,21 @@ void CProcCreateCallback::ProcessNotifyCallBack(
 			LOG_OUT(DBG_INFO, "Ignoring proccess PID %d", Pid);
 			goto Leave;
 		}
-		pProcesssUtils = KernelUtilsLib::IProcessUtils::GetNewInstance(Process);
-		if (!pProcesssUtils)
+		if (pProcessList->AddElement(Process, CreateInfo->ParentProcessId))
 		{
-			LOG_OUT(DBG_ERROR, "IProcessUtils::GetNewInstance Failed ProcessPid %d", Pid);
+			pProcessListElement = pProcessList->GetElement(Process);
+		}
+		if (!pProcessListElement)
+		{
+			LOG_OUT(DBG_ERROR, "GetElement Failure PID %d", Pid);
 			goto Leave;
 		}
-		Tmp = pProcesssUtils->GetDosFullPathName();
-		if (!Tmp)
-		{
-			LOG_OUT(DBG_ERROR, "IProcessUtils::GetDosFullPathName Failed ProcessPid %d", Pid);
-			goto Leave;
-		}
-		Tmp1.Buffer = new ('1pmt') WCHAR[Tmp->MaximumLength];
-		if (!Tmp1.Buffer)
-		{
-			LOG_OUT(DBG_ERROR, "new WCHAR Failed ProcessPid %d", Pid);
-			goto Leave;
-		}
-		Tmp1.MaximumLength = Tmp->MaximumLength;
-		Tmp1.Length = 0;
-		status = RtlUnicodeStringCopy(&Tmp1, Tmp);
-		if (!NT_SUCCESS(status))
-		{
-			LOG_OUT(DBG_ERROR, "RtlUnicodeStringCopy Failed m_ProccesDosExecNameBuff %S ProcessPid %d status 0x%08X", 
-				Tmp->Buffer, Pid, status);
-			goto Leave;
-		}
-		for (UINT Index = 0; Index < (Tmp1.Length / sizeof(WCHAR)); ++Index)
-		{
-			Tmp1.Buffer[Index] = RtlDowncaseUnicodeChar(Tmp1.Buffer[Index]);
-		}
-		LOG_OUT(DBG_ERROR, "***Found Proccess %S ProcessPid %d***", Tmp1.Buffer, Pid);
 
-		// TODO check bounds before running wcsstr
-		if (wcsstr(Tmp1.Buffer, L"notepad"))
-		{
-			LOG_OUT(DBG_ERROR, "***Going to avoid process creation ***");
-			CreateInfo->CreationStatus = STATUS_UNSUCCESSFUL;
-		}
+		LOG_OUT(DBG_INFO, "*Added proccess PID = %d Parent PID =  %d FIlePath %wZ",
+			pProcessListElement->m_ProcessPid,
+			pProcessListElement->m_ParentProcessPid,
+			&pProcessListElement->m_ProccesDosExecName
+			);
 	}
 	else
 	{
@@ -155,18 +129,22 @@ void CProcCreateCallback::ProcessNotifyCallBack(
 		// Exit Process
 		//////////////////
 
-		LOG_OUT(DBG_INFO, "*Exit proccess  PID = %d", Pid);
+		pProcessListElement = pProcessList->GetElement(Process);
+		if (!pProcessListElement)
+		{
+			LOG_OUT(DBG_ERROR, "exit process callback failing the GetElement for PID %d while in ", Pid);
+			goto Leave;
+		}
+
+		LOG_OUT(DBG_INFO, "*Exit proccess  PID = %d FIlePath %wZ", 
+			pProcessListElement->m_ProcessPid,
+			&pProcessListElement->m_ProccesDosExecName
+		);
+
+		pProcessList->RemoveElement(Process);
 	}
 
 Leave:
-	if (pProcesssUtils)
-	{
-		KernelUtilsLib::IProcessUtils::ReleaseInstance(pProcesssUtils);
-	}
-	if (Tmp1.Buffer)
-	{
-		delete[] Tmp1.Buffer;
-	}
 	return;
 }
 

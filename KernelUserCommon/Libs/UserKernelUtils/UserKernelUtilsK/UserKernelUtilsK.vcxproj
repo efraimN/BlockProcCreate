@@ -80,6 +80,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="RegUtils.cpp" />
+    <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\UserKernelUtilsK\FileUtils.h" />
@@ -89,6 +90,7 @@
     <ClInclude Include="LinkListLib.h" />
     <ClInclude Include="MemPolMgr.h" />
     <ClInclude Include="Precompiled.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="$(SolutionDir)BuildSystem\PropsFiles\WPP.targets" />

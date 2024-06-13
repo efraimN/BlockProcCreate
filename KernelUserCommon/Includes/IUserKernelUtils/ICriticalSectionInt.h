@@ -1,4 +1,5 @@
-	/*****************************************************************************************
+#pragma once
+/*****************************************************************************************
 		 Note For kernel code:
 		 When using CriticalSectionShared the thread CAN BE at DISPATCH_LEVEL or less
 			In this case for threads at DISPATCH_LEVEL the call will be a blocking call

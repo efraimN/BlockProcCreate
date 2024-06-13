@@ -14,13 +14,13 @@
     <ClInclude Include="Precompiled.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FileProcessUtils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\KernelUserCommon\Libs\UserKernelUtils\UserKernelUtilsK\Precompiled.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\KernelUserCommon\Libs\UserKernelUtils\UserKernelUtilsK\RegUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -31,10 +31,10 @@
     <ClCompile Include="RegistryUtil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FileProcessUtils.cpp">
+    <ClCompile Include="..\..\..\KernelUserCommon\Libs\UserKernelUtils\UserKernelUtilsK\RegUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\KernelUserCommon\Libs\UserKernelUtils\UserKernelUtilsK\RegUtils.cpp">
+    <ClCompile Include="ProcessUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

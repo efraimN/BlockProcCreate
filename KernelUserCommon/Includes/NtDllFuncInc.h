@@ -148,3 +148,13 @@ NTZW(CreateKey)(
 
 #endif
 
+NTSTATUS
+NTAPI
+NTZW(QueryInformationProcess)(
+	__in       HANDLE ProcessHandle,
+	__in       PROCESSINFOCLASS ProcessInformationClass,
+	__out      PVOID ProcessInformation,
+	__in       ULONG ProcessInformationLength,
+	__out_opt  PULONG ReturnLength
+);
+

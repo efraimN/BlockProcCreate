@@ -2,7 +2,7 @@
 
 #include <WppIncludes.h>
 
-#include "FileProcessUtils.h"
+#include "ProcessUtils.h"
 
 namespace KernelUtilsLib
 {
@@ -111,4 +111,37 @@ namespace KernelUtilsLib
 
 		delete pProcessUtils;
 	}
+	BOOLEAN
+	NTAPI
+	CProcessUtils::PsIsProtectedProcessLight(
+		_In_ PEPROCESS Process
+	)
+	{
+		static BOOLEAN PsIsProtectedProcessLightInited = FALSE;
+		static
+		BOOLEAN
+		(NTAPI
+			* MyPsIsProtectedProcessLight)(
+				_In_ PEPROCESS Process
+		) = NULL;
+
+		if (!PsIsProtectedProcessLightInited)
+		{
+			UNICODE_STRING PsIsProtectedProcessLightName;
+			RtlInitUnicodeString(&PsIsProtectedProcessLightName, L"PsIsProtectedProcessLight");
+			MyPsIsProtectedProcessLight = (BOOLEAN(NTAPI*)(PEPROCESS))MmGetSystemRoutineAddress(&PsIsProtectedProcessLightName);
+			if (!MyPsIsProtectedProcessLight)
+			{
+				LOG_OUT(DBG_INFO, "This system does not supports the PsIsProtectedProcessLight function");
+			}
+			PsIsProtectedProcessLightInited = TRUE;
+		}
+		if (MyPsIsProtectedProcessLight)
+		{
+			return MyPsIsProtectedProcessLight(Process);
+		}
+		return FALSE;
+	}
+
 };
+

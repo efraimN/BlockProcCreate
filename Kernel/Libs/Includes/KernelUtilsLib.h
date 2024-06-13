@@ -44,6 +44,13 @@ namespace KernelUtilsLib
 		GetDosFullPathName(
 		) = 0;
 
+		virtual
+		BOOLEAN
+		NTAPI
+		PsIsProtectedProcessLight(
+			_In_ PEPROCESS Process
+		) = 0;
+
 	protected:
 		IProcessUtils() {};
 		virtual ~IProcessUtils() {};

@@ -11,6 +11,13 @@ namespace KernelUtilsLib
 
 		virtual PUNICODE_STRING GetNtFullPathName()  { return m_FullNtPathName; };
 		virtual PUNICODE_STRING GetDosFullPathName() { return m_FullDosPathName; };
+	
+		virtual
+		BOOLEAN
+		NTAPI
+		PsIsProtectedProcessLight(
+			_In_ PEPROCESS Process
+		);
 
 
 	private:

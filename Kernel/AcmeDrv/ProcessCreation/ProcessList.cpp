@@ -41,18 +41,21 @@ BOOL CProcessList::InitElement(ProcessDataElement* Element)
 	Element->m_DllinjectionParams.m_InjectionKernelAPC = NULL;
 	Element->m_DllinjectionParams.m_WhiteListProc = FALSE;
 
-// 	status = ObOpenObjectByPointer(Element->m_ProcessObj,
-// 		OBJ_KERNEL_HANDLE, NULL, PROCESS_QUERY_INFORMATION,
-// 		*PsProcessType, 
-// 		KernelMode, 
-// 		&hProcess
-// 	);
-// 
-// 	if (!UserKernelUtilsLib::CUtilsInt::GetInstance()->IsProcessWow64(hProcess, &Element->m_IsWow64))
-// 	{
-// 		LOG_OUT(DBG_ERROR, "CUtilsInt->IsProcessWow64 Failed ProcessPid %d", Element->m_ProcessPid);
-// 		goto Leave;
-// 	}
+	status = ObOpenObjectByPointer(
+		Element->m_ProcessObj,
+		OBJ_KERNEL_HANDLE,
+		NULL,
+		PROCESS_QUERY_INFORMATION,
+		*PsProcessType, 
+		KernelMode, 
+		&hProcess
+	);
+
+	if (!UserKernelUtilsLib::IUtilsInt::GetInstance()->IsProcessWow64(hProcess, &Element->m_IsWow64))
+	{
+		LOG_OUT(DBG_ERROR, "IUtilsInt->IsProcessWow64 Failed ProcessPid %d", Element->m_ProcessPid);
+		goto Leave;
+	}
 
 	pProcesssUtils = IProcessUtils::GetNewInstance(Element->m_ProcessObj);
 	if (!pProcesssUtils)
@@ -116,13 +119,16 @@ BOOL CProcessList::InitElement(ProcessDataElement* Element)
 		Element->m_ProccesDosExecName.Buffer[Index] = RtlDowncaseUnicodeChar(Element->m_ProccesDosExecName.Buffer[Index]);
 	}
 
+	Element->m_CreationTime = PsGetProcessCreateTimeQuadPart(Element->m_ProcessObj);
+
 	Tmp = NULL;
 
 	ObReferenceObject(Element->m_ProcessObj);
 
-// 	Element->m_IsProtectedProccess = PsIsProtectedProcess(Element->m_ProcessObj);
-// 
-// 	Element->m_IsProtectedProccessLight = PsIsProtectedProcessLight(Element->m_ProcessObj);
+	Element->m_IsProtectedProccess = PsIsProtectedProcess(Element->m_ProcessObj);
+
+	Element->m_IsProtectedProccessLight = pProcesssUtils->PsIsProtectedProcessLight(Element->m_ProcessObj);
+
 	RetVal = TRUE;
 Leave:
 	if (pProcesssUtils)
@@ -235,7 +241,7 @@ VOID CProcessList::Stop()
 
 
 
-BOOL CProcessList::AddElement(PEPROCESS ProcessObj)
+BOOL CProcessList::AddElement(PEPROCESS ProcessObj, HANDLE /*ParentProcessId*/)
 {
 	BOOL RetVal = FALSE;
 	ProcessDataElement* Element = NULL;

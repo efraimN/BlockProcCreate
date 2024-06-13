@@ -1,5 +1,6 @@
 #pragma once
 
+#include <IUtilsInt.h>
 #include <IMapFileInt.h>
 #include <IFileUtilsInt.h>
 #include <IRegUtilsInt.h>

@@ -6,12 +6,28 @@ extern "C"
 #endif
 
 	NTKERNELAPI
+	BOOLEAN
+	NTAPI
+	PsIsProtectedProcess(
+		IN PEPROCESS Process
+	);
+
+	NTKERNELAPI
 	NTSTATUS
 	NTAPI
 	PsReferenceProcessFilePointer(
 		IN PEPROCESS Process,
 		OUT PFILE_OBJECT *FileObject
 	);
+
+#ifdef _M_X64
+	NTKERNELAPI
+	PVOID
+	NTAPI
+	PsGetProcessWow64Process(
+		IN PEPROCESS Process
+	);
+#endif
 
 	typedef VOID(NTAPI * PFN_NORMAL_ROUTINE)
 		(

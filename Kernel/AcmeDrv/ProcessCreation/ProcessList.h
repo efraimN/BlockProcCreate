@@ -25,10 +25,12 @@ struct ProcessDataElement : public UserKernelUtilsLib::ILinkListElement
 	PEPROCESS m_ProcessObj;
 	DWORD m_ProcessPid;
 
+	DWORD m_ParentProcessPid;
 
 	// Some useful info about a process to keep
 	UNICODE_STRING m_ProccesNtExecName;
 	UNICODE_STRING m_ProccesDosExecName;
+	UINT64 m_CreationTime;
 	UINT64 m_EntryPoint;
 	BOOL m_IsWow64;
 	BOOLEAN m_IsProtectedProccess;
@@ -54,7 +56,7 @@ public:
 	BOOLEAN Start();
 	VOID Stop();
 
-	BOOL AddElement(PEPROCESS ProcessObj);
+	BOOL AddElement(PEPROCESS ProcessObj, HANDLE ParentProcessId);
 	BOOL RemoveElement(PEPROCESS ProcessObj);
 
 	ProcessDataElement* GetElement(PEPROCESS ProcessObj);
