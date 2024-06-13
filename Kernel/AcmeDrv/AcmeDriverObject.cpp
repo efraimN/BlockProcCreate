@@ -4,9 +4,9 @@
 #include <DriverEntryLib.h>
 #include "AcmeDriverObject.h"
 
+#include ".\ProcessCreation\ProcessList.h"
 #include ".\ProcessCreation\ProcessCreationCallBack.h"
 #include ".\ImageLoading\ImageLoadingCallBack.h"
-
 
 
 CDriverObjectInt* CDriverObjectInt::GetInstance()
@@ -23,9 +23,25 @@ NTSTATUS CMyDriverObject::DoStartStop(BOOL Start_Stop)
 	auto Start = [&]()->NTSTATUS
 	{
 		/* Add initialization for each module used */
-		CProcCreateCallback::GetInstance()->Start();
-		CImageLoadingCallBack::GetInstance()->Start();
+		if (!CProcessList::GetInstance()->Start())
+		{
+			LOG_OUT(DBG_ERROR, "CProcessList::Start Failed");
+			goto Leave;
+		}
 
+		status = CProcCreateCallback::GetInstance()->Start();
+		if (!NT_SUCCESS(status))
+		{
+			LOG_OUT(DBG_ERROR, "CProcCreateCallback::Start Failed status =  0x%08X", status);
+			goto Leave;
+		}
+
+		status = CImageLoadingCallBack::GetInstance()->Start();
+		if (!NT_SUCCESS(status))
+		{
+			LOG_OUT(DBG_INFO, "CImageLoadingCallBack::Start Failed status =  0x%08X", status);
+			goto Leave;
+		}
 
 		status = STATUS_SUCCESS;
 		goto Leave;
@@ -37,6 +53,7 @@ NTSTATUS CMyDriverObject::DoStartStop(BOOL Start_Stop)
 		//Here do de-init of modules (usually in inverse init order)
 		CImageLoadingCallBack::GetInstance()->Stop();
 		CProcCreateCallback::GetInstance()->Stop();
+		CProcessList::GetInstance()->Stop();
 
 	};
 
