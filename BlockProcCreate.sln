@@ -113,6 +113,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IUserKernelUtils", "IUserKe
 		KernelUserCommon\Includes\IUserKernelUtils\IFileUtilsInt.h = KernelUserCommon\Includes\IUserKernelUtils\IFileUtilsInt.h
 		KernelUserCommon\Includes\IUserKernelUtils\ILinkListLibInt.h = KernelUserCommon\Includes\IUserKernelUtils\ILinkListLibInt.h
 		KernelUserCommon\Includes\IUserKernelUtils\IMapFileInt.h = KernelUserCommon\Includes\IUserKernelUtils\IMapFileInt.h
+		KernelUserCommon\Includes\IUserKernelUtils\IMemPoolMgr.h = KernelUserCommon\Includes\IUserKernelUtils\IMemPoolMgr.h
+		KernelUserCommon\Includes\IUserKernelUtils\IParsePe.h = KernelUserCommon\Includes\IUserKernelUtils\IParsePe.h
 		KernelUserCommon\Includes\IUserKernelUtils\IRegUtilsInt.h = KernelUserCommon\Includes\IUserKernelUtils\IRegUtilsInt.h
 		KernelUserCommon\Includes\IUserKernelUtils\IUtilsInt.h = KernelUserCommon\Includes\IUserKernelUtils\IUtilsInt.h
 	EndProjectSection

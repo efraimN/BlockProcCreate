@@ -62,7 +62,8 @@ private:
 		volatile LONG* ApcPendingCount,
 		PETHREAD Kernel32LoaderThread,
 		ProcessDataElement* pProcListElement,
-		HookType TypeOfHook
+		HookType TypeOfHook,
+		PVOID Shel32MapAddress
 	);
 
 	static

@@ -130,13 +130,41 @@ ApcInject::InjectApcNormalRutine(
 	PROC_ENTRY;
 	LOG_OUT(DBG_INFO, "InjectApcNormalRutine for Proc %wZ", &pProcessDataElement->m_ProccesDosExecName);
 
-	// we should get the above parameters now, before we que the ShellCodeApc user apc
-	PVOID pShellCodeMapAddress = NULL;
+	UserKernelUtilsLib::IParsePe* pParsePe = UserKernelUtilsLib::IParsePe::GetInstance();
+
 	PVOID ShellCodeContextData = NULL;
 	PVOID pShellCodeApcProcAddress = NULL;
-	BOOL Succeed = NULL;
+	BOOL Succeed = FALSE;
 
-	// here we should map the shell code and then que the user mode apc that does the injection
+	pShellCodeApcProcAddress = pParsePe->InMemoryGetProcAddress(
+		pAPC_PARAMS->Shel32MapAddress
+		, "LoadLibraryExW", 
+		ZwCurrentProcess()
+	);
+
+
+	{
+		WCHAR DllName[] =  L"c:\\drivers\\hdll.dll" ;
+		PWSTR UserModeDllPath = NULL;
+		size_t UserModeDllPathLeng = sizeof(DllName);
+		NTSTATUS status;
+
+		status = ZwAllocateVirtualMemory(
+			ZwCurrentProcess(),
+			(PVOID*)&UserModeDllPath,
+			0,
+			&UserModeDllPathLeng,
+			MEM_RESERVE | MEM_COMMIT,
+			PAGE_READWRITE
+		);
+		if (!NT_SUCCESS(status))
+		{
+			goto Leave;
+		}
+
+		RtlCopyMemory(UserModeDllPath, DllName, sizeof(DllName));
+		ShellCodeContextData = UserModeDllPath;
+	}
 
 	if (!RunUserApc(
 		pAPC_PARAMS,
@@ -157,10 +185,6 @@ Leave:
 	{
 		LOG_OUT(DBG_INFO,L"Error calling on InjectApcNormalRutine for Proc %wZ",
 			&pProcessDataElement->m_ProccesDosExecName);
-		if (pShellCodeMapAddress)
-		{
-			UserKernelUtilsLib::IMapFileInt::GetInstance()->UnMapFile(pShellCodeMapAddress, ZwCurrentProcess());
-		}
 		InterlockedDecrement(pAPC_PARAMS->ApcPendingCount);
 		ExReleaseRundownProtection(pAPC_PARAMS->ExitRunDown);
 		if (pAPC_PARAMS)
@@ -173,7 +197,8 @@ Leave:
 BOOL ApcInject::RunApcInjection(
 	PEX_RUNDOWN_REF ExitRunDown,
 	volatile LONG* ApcPendingCount,
-	ProcessDataElement* pProcListElement
+	ProcessDataElement* pProcListElement,
+	PVOID Shel32MapAddress
 )
 {
 	auto ProcEntry = [](BOOL start)
@@ -201,6 +226,7 @@ BOOL ApcInject::RunApcInjection(
 	pAPC_PARAMS->ExitRunDown = ExitRunDown;
 	pAPC_PARAMS->ApcPendingCount = ApcPendingCount;
 	pAPC_PARAMS->pProcListElement = pProcListElement;
+	pAPC_PARAMS->Shel32MapAddress = Shel32MapAddress;
 
 
 	pProcListElement->m_DllinjectionParams.m_InjectionUserAPC = NULL;

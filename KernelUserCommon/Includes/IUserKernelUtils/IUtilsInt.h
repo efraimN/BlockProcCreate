@@ -19,6 +19,14 @@ namespace UserKernelUtilsLib
 		IN BOOLEAN CaseInSensitive
 	) = 0;
 
+	virtual
+	LONG
+	StrLenSafe(
+		_Out_ const char* str,
+		_In_ ULONG MaxLen,
+		_In_ HANDLE ProcHandle
+	) = 0;
+
 	protected:
 		IUtilsInt() NOEXCEPT {};
 		virtual~IUtilsInt() {};

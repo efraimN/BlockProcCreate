@@ -16,6 +16,14 @@ class Utils  : public UserKernelUtilsLib::IUtilsInt
 		IN BOOLEAN CaseInSensitive
 	);
 
+	virtual
+		LONG
+		StrLenSafe(
+			_Out_ const char* str,
+			_In_ ULONG MaxLen,
+			_In_ HANDLE ProcHandle
+		);
+
 private:
 	Utils();
 	virtual ~Utils();

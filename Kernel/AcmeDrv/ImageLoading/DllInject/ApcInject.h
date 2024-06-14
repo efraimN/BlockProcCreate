@@ -10,7 +10,8 @@ public:
 	BOOL RunApcInjection(
 		PEX_RUNDOWN_REF ExitRunDown,
 		volatile LONG* ApcPendingCount,
-		ProcessDataElement* pProcListElement
+		ProcessDataElement* pProcListElement,
+		PVOID Shel32MapAddress
 	);
 
 
@@ -21,6 +22,7 @@ private:
 		PEX_RUNDOWN_REF ExitRunDown;
 		volatile LONG* ApcPendingCount;
 		ProcessDataElement* pProcListElement;
+		PVOID Shel32MapAddress;
 	}APC_PARAMS, * PAPC_PARAMS;
 
 	static

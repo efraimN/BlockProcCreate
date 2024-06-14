@@ -262,7 +262,9 @@ CDllInjection::ImageLoadingCallBack(
 		Buffer = pProcListElement->m_ProccesNtExecName.Buffer;
 	}
 
-	LOG_OUT(DBG_INFO, "***Injecting DLL into the process with PID: 0x%x. Name: %S", 
+	LOG_OUT(DBG_INFO, "Got trigerFullImageName %wZ", FullImageName);
+
+	LOG_OUT(DBG_INFO, "***Injecting DLL into the process with PID: 0x%x. Name: %S",
 		(ULONG)pProcListElement->m_ProcessPid,
 		Buffer);
 
@@ -281,7 +283,8 @@ CDllInjection::ImageLoadingCallBack(
 		&m_ApcPendingCount,
 		PsGetCurrentThread(),
 		pProcListElement,
-		APCInjectionType
+		APCInjectionType,
+		ImageInfo->ImageBase
 	))
 	{
 		LOG_OUT(DBG_ERROR, "***FAILED DoHook DLL into the process with PID: 0x%x. Name: %S",
@@ -299,7 +302,8 @@ BOOL CDllInjection::DoHook(
 	volatile LONG* ApcPendingCount,
 	PETHREAD Kernel32LoaderThread,
 	ProcessDataElement* pProcListElement,
-	HookType TypeOfHook
+	HookType TypeOfHook,
+	PVOID Shel32MapAddress
 )
 {
 	BOOL RetVal = FALSE;
@@ -321,7 +325,8 @@ BOOL CDllInjection::DoHook(
 			RetVal = ApcInject::RunApcInjection(
 				ExitRunDown,
 				ApcPendingCount,
-				pProcListElement
+				pProcListElement,
+				Shel32MapAddress
 			);
 		}
 		break;
@@ -425,7 +430,7 @@ BOOL CDllInjection::CheckIfOnDebuging(
 		// if NOT PowerShell or Notepad DO NOT INJECT
 		BOOL RetVal = TRUE;
 		UNICODE_STRING TmpUniStr;
-		RtlInitUnicodeString(&TmpUniStr, L"PowerShell");
+		RtlInitUnicodeString(&TmpUniStr, L"powershell");
 
 		if (pUtilsInt->SafeSearchString(&pProcListElement->m_ProccesDosExecName, &TmpUniStr, TRUE) == -1)
 		{

@@ -79,6 +79,20 @@ extern "C"
 		KPRIORITY Increment
 	);
 
+	NTKERNELAPI
+	NTSTATUS
+	NTAPI
+	PsAcquireProcessExitSynchronization(
+		IN PEPROCESS Process
+	);
+
+	NTKERNELAPI
+	NTSTATUS
+	NTAPI
+	PsReleaseProcessExitSynchronization(
+		IN PEPROCESS Process
+	);
+
 #ifdef __cplusplus
 }
 #endif

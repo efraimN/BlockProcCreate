@@ -79,3 +79,205 @@ Utils::SafeSearchString(
 
 	return -1;
 }
+
+LONG Utils::StrLenSafe(
+	_Out_ const char* str,
+	_In_ ULONG MaxLen,
+	_In_ HANDLE ProcHandle
+)
+{
+	CHAR Character = 0;
+	LONG Counter = 0;
+	const CHAR* CharAddress;
+	LONG RetVal = -1;
+
+	// Initialize parameters
+	CharAddress = str;
+	Counter = MaxLen;
+
+	do
+	{
+		__try
+		{
+			// Read byte from char string
+			ProbeForRead(
+				(LPVOID)CharAddress,
+				sizeof(CHAR),
+				__alignof(CHAR));
+			ReadMemory((PVOID)CharAddress, &Character, sizeof(CHAR), ProcHandle);
+
+			// Go to the next character
+			CharAddress++;
+			Counter--;
+		}
+		__except (EXCEPTION_EXECUTE_HANDLER)
+		{
+			LOG_OUT(DBG_ERROR, "StrLenSafe catch");
+			goto Leave;
+		}
+	} while (Character && (Counter >= 0));
+
+	RetVal = MaxLen - Counter - 1;
+
+Leave:
+	return RetVal;
+}
+
+#ifndef _NTDDK_
+VOID
+NTAPI
+ProbeForRead(
+	const volatile VOID* Address,
+	SIZE_T Length,
+	ULONG Alignment
+)
+{
+	UNREFERENCED_PARAMETER(Address);
+	UNREFERENCED_PARAMETER(Length);
+	UNREFERENCED_PARAMETER(Alignment);
+}
+#else
+extern "C"
+BOOL
+NTAPI
+WriteProcessMemory(
+	_In_ HANDLE hProcess,
+	_In_ LPVOID lpBaseAddress,
+	_In_ LPCVOID lpBuffer,
+	_In_ SIZE_T nSize,
+	_Out_opt_ SIZE_T * lpNumberOfBytesWritten
+)
+{
+	BOOL RetVal = FALSE;
+
+	BOOLEAN Acquired = FALSE;
+	KAPC_STATE apc;
+	PKPROCESS pKprocess = NULL;
+	NTSTATUS status;
+	if (hProcess)
+	{
+		status = ObReferenceObjectByHandle(hProcess, GENERIC_ALL, NULL, KernelMode, (PVOID*)&pKprocess, NULL);
+		if (!NT_SUCCESS(status))
+		{
+			goto Leave;
+		}
+
+		if (PsGetCurrentProcess() != pKprocess)
+		{
+			if (!NT_SUCCESS(PsAcquireProcessExitSynchronization(pKprocess)))
+			{
+				goto Leave;
+			}
+			KeStackAttachProcess(pKprocess, &apc);
+			Acquired = TRUE;
+		}
+	}
+
+	[&]()
+	{
+		__try
+		{
+			memcpy(lpBaseAddress, lpBuffer, nSize);
+			RetVal = TRUE;
+		}
+		__except (EXCEPTION_EXECUTE_HANDLER)
+		{
+		}
+	}();
+
+	if (!RetVal)
+	{
+		goto Leave;
+	}
+
+	if (lpNumberOfBytesWritten)
+	{
+		*lpNumberOfBytesWritten = nSize;
+	}
+
+Leave:
+	if (Acquired)
+	{
+		KeUnstackDetachProcess(&apc);
+		PsReleaseProcessExitSynchronization(pKprocess);
+	}
+	if (pKprocess)
+	{
+		ObDereferenceObject(pKprocess);
+	}
+
+	return RetVal;
+}
+
+extern "C"
+BOOL
+NTAPI
+ReadProcessMemory(
+	_In_ HANDLE hProcess,
+	_In_ LPCVOID lpBaseAddress,
+	_Out_ LPVOID lpBuffer,
+	_In_ SIZE_T nSize,
+	_Out_opt_ SIZE_T * lpNumberOfBytesRead
+)
+{
+	BOOL RetVal = FALSE;
+
+	BOOLEAN Acquired = FALSE;
+	KAPC_STATE apc;
+	PKPROCESS pKprocess = NULL;
+	NTSTATUS status;
+	if (hProcess)
+	{
+		status = ObReferenceObjectByHandle(hProcess, GENERIC_ALL, NULL, KernelMode, (PVOID*)&pKprocess, NULL);
+		if (!NT_SUCCESS(status))
+		{
+			goto Leave;
+		}
+
+		if (PsGetCurrentProcess() != pKprocess)
+		{
+			if (!NT_SUCCESS(PsAcquireProcessExitSynchronization(pKprocess)))
+			{
+				goto Leave;
+			}
+			KeStackAttachProcess(pKprocess, &apc);
+			Acquired = TRUE;
+		}
+	}
+	[&]()
+	{
+		__try
+		{
+			memcpy(lpBuffer, lpBaseAddress, nSize);
+			RetVal = TRUE;
+		}
+		__except (EXCEPTION_EXECUTE_HANDLER)
+		{
+		}
+	}();
+
+	if (!RetVal)
+	{
+		goto Leave;
+	}
+
+	if (lpNumberOfBytesRead)
+	{
+		*lpNumberOfBytesRead = nSize;
+	}
+
+Leave:
+	if (Acquired)
+	{
+		KeUnstackDetachProcess(&apc);
+		PsReleaseProcessExitSynchronization(pKprocess);
+	}
+	if (pKprocess)
+	{
+		ObDereferenceObject(pKprocess);
+	}
+
+	return RetVal;
+}
+
+#endif
