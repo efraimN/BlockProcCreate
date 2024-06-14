@@ -69,22 +69,22 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)ProcessCreation;$(ProjectDir)ImageLoading;$(ProjectDir)ImageLoading\DllInject;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)ProcessCreation;$(ProjectDir)ImageLoading;$(ProjectDir)ImageLoading\DllInject;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)ProcessCreation;$(ProjectDir)ImageLoading;$(ProjectDir)ImageLoading\DllInject;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)ProcessCreation;$(ProjectDir)ImageLoading;$(ProjectDir)ImageLoading\DllInject;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">UserKernelUtilsK.slib;KernelUtilsLib.slib;DriverEntryLib.slib;KernelCrtLib.slib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ApcLib.slib;UserKernelUtilsK.slib;KernelUtilsLib.slib;DriverEntryLib.slib;KernelCrtLib.slib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Link>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">UserKernelUtilsK.slib;KernelUtilsLib.slib;DriverEntryLib.slib;KernelCrtLib.slib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ApcLib.slib;UserKernelUtilsK.slib;KernelUtilsLib.slib;DriverEntryLib.slib;KernelCrtLib.slib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Link>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">UserKernelUtilsK.slib;KernelUtilsLib.slib;DriverEntryLib.slib;KernelCrtLib.slib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ApcLib.slib;UserKernelUtilsK.slib;KernelUtilsLib.slib;DriverEntryLib.slib;KernelCrtLib.slib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Link>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">UserKernelUtilsK.slib;KernelUtilsLib.slib;DriverEntryLib.slib;KernelCrtLib.slib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ApcLib.slib;UserKernelUtilsK.slib;KernelUtilsLib.slib;DriverEntryLib.slib;KernelCrtLib.slib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
@@ -102,6 +102,8 @@
   <ItemGroup>
     <ClCompile Include="AcmeDriverObject.cpp" />
     <ClCompile Include="AcmeDrv.cpp" />
+    <ClCompile Include="ImageLoading\DllInject\ApcInject.cpp" />
+    <ClCompile Include="ImageLoading\DllInject\DllInjection.cpp" />
     <ClCompile Include="ImageLoading\ImageLoadingCallBack.cpp" />
     <ClCompile Include="Precompiled.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -115,6 +117,8 @@
   <ItemGroup>
     <ClInclude Include="AcmeDriverObject.h" />
     <ClInclude Include="AcmeDrv.h" />
+    <ClInclude Include="ImageLoading\DllInject\ApcInject.h" />
+    <ClInclude Include="ImageLoading\DllInject\DllInjection.h" />
     <ClInclude Include="ImageLoading\ImageLoadingCallBack.h" />
     <ClInclude Include="ImageLoading\ImageLoadingCallBackClient.h" />
     <ClInclude Include="Precompiled.h" />

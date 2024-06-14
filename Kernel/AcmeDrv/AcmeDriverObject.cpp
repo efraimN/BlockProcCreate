@@ -4,9 +4,9 @@
 #include <DriverEntryLib.h>
 #include "AcmeDriverObject.h"
 
-#include ".\ProcessCreation\ProcessList.h"
-#include ".\ProcessCreation\ProcessCreationCallBack.h"
-#include ".\ImageLoading\ImageLoadingCallBack.h"
+#include <ProcessList.h>
+#include <ProcessCreationCallBack.h>
+#include <ImageLoadingCallBack.h>
 
 
 CDriverObjectInt* CDriverObjectInt::GetInstance()
@@ -54,7 +54,6 @@ NTSTATUS CMyDriverObject::DoStartStop(BOOL Start_Stop)
 		CImageLoadingCallBack::GetInstance()->Stop();
 		CProcCreateCallback::GetInstance()->Stop();
 		CProcessList::GetInstance()->Stop();
-
 	};
 
 	if (Start_Stop)

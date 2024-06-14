@@ -3,14 +3,17 @@
 #include <WppIncludes.h>
 
 #include "ImageLoadingCallBack.h"
+#include <DllInjection.h>
 
 
 void
 CImageLoadingCallBack::InitCallBacks()
 {
+	static CDllInjection _CDllInjection;
 	static
 	ImageLoadingCallBackClient* ImageLoadingCallBackClientArray[] =
 	{
+		&_CDllInjection,
 		NULL,
 	};
 
@@ -138,8 +141,6 @@ void CImageLoadingCallBack::PloadImageNotifyRoutine_(
 	PIMAGE_INFO ImageInfo
 )
 {
-	// FullImageName may be null
-	UNREFERENCED_PARAMETER(FullImageName);
 	CImageLoadingCallBack* pLoadCallback;
 	pLoadCallback = CImageLoadingCallBack::GetInstance();
 

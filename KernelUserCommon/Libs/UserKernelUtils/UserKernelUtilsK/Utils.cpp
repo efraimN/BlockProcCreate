@@ -51,3 +51,31 @@ Leave:
 	return RetVal;
 }
 
+LONG
+Utils::SafeSearchString(
+	IN PUNICODE_STRING Source,
+	IN PUNICODE_STRING Target,
+	IN BOOLEAN CaseInSensitive
+)
+{
+	// Size mismatch
+	if (Source->Length < Target->Length)
+		return -1;
+
+	USHORT diff = Source->Length - Target->Length;
+	for (USHORT i = 0; i <= diff; i++)
+	{
+		if (RtlCompareUnicodeStrings(
+			Source->Buffer + i / sizeof(WCHAR),
+			Target->Length / sizeof(WCHAR),
+			Target->Buffer,
+			Target->Length / sizeof(WCHAR),
+			CaseInSensitive
+		) == 0)
+		{
+			return i;
+		}
+	}
+
+	return -1;
+}

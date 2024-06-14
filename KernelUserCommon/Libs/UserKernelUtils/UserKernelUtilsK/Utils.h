@@ -8,6 +8,14 @@ class Utils  : public UserKernelUtilsLib::IUtilsInt
 		_Out_ PBOOL IsWow
 	);
 
+	virtual
+	LONG
+	SafeSearchString(
+		IN PUNICODE_STRING Source,
+		IN PUNICODE_STRING Target,
+		IN BOOLEAN CaseInSensitive
+	);
+
 private:
 	Utils();
 	virtual ~Utils();

@@ -51,6 +51,12 @@
     <ClInclude Include="ProcessCreation\ProcessList.h">
       <Filter>ProcessCreation</Filter>
     </ClInclude>
+    <ClInclude Include="ImageLoading\DllInject\DllInjection.h">
+      <Filter>ImageLoading\DllInject</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageLoading\DllInject\ApcInject.h">
+      <Filter>ImageLoading\DllInject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Precompiled.cpp">
@@ -70,6 +76,12 @@
     </ClCompile>
     <ClCompile Include="ProcessCreation\ProcessList.cpp">
       <Filter>ProcessCreation</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageLoading\DllInject\DllInjection.cpp">
+      <Filter>ImageLoading\DllInject</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageLoading\DllInject\ApcInject.cpp">
+      <Filter>ImageLoading\DllInject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

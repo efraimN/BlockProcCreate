@@ -11,6 +11,14 @@ namespace UserKernelUtilsLib
 		_Out_ PBOOL IsWow
 	) = 0;
 
+	virtual
+	LONG
+	SafeSearchString(
+		IN PUNICODE_STRING Source,
+		IN PUNICODE_STRING Target,
+		IN BOOLEAN CaseInSensitive
+	) = 0;
+
 	protected:
 		IUtilsInt() NOEXCEPT {};
 		virtual~IUtilsInt() {};
