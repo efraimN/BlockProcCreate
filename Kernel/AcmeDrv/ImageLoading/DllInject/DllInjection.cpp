@@ -7,10 +7,32 @@
 #include <DllInjection.h>
 #include <ApcInject.h>
 
-// open the following lines for debug only
-#define IN_DEBUG_TESTING
-// #define LOG_OUT_STEPS_INJECTION
+// open the following define to force injection on debug files only
+// #define IN_DEBUG_TESTING
 
+
+// Must be lower case
+WCHAR BlackListProcs[][MAX_PATH] =
+{
+	L"c:\\windows\\system32\\lsaiso.exe",
+	L"c:\\windows\\system32\\vmcompute.exe",
+	L"c:\\windows\\system32\\vmwp.exe"
+};
+
+// Must be lower case
+WCHAR DebugDoInject[][MAX_PATH] =
+#ifdef IN_DEBUG_TESTING
+{
+	L"notepad.exe",
+	L"notepad++.exe",
+	L"powershell.exe",
+	L"cff-explorer.exe",
+};
+#else
+{
+	L""
+};
+#endif
 
 LONG volatile CDllInjection::m_ApcPendingCount;
 
@@ -43,16 +65,19 @@ NTSTATUS CDllInjection::Start()
 	PROC_ENTRY;
 	if (!m_Inited)
 	{
-		RtlInitUnicodeString(&m_Kernel32Path,
-			L"\\Windows\\System32\\kernel32.dll" //Native 64 or 32
-		);
-
-		RtlInitUnicodeString(&m_Kernel32PathWow,
-			L"\\Windows\\SysWOW64\\kernel32.dll"// 32 on wow
-		);
+// 		RtlInitUnicodeString(&m_Kernel32Path,
+// 			L"\\Windows\\System32\\kernel32.dll" //Native 64 or 32
+// 		);
+// 
+// 		RtlInitUnicodeString(&m_Kernel32PathWow,
+// 			L"\\Windows\\SysWOW64\\kernel32.dll"// 32 on wow
+// 		);
 
 		RtlInitUnicodeString(&m_kernelBaseWowPath,
 			L"\\Windows\\SysWOW64\\kernelBase.dll"
+		);
+		RtlInitUnicodeString(&m_kernelBasePath,
+			L"\\Windows\\System32\\kernelBase.dll"
 		);
 		m_Inited = TRUE;
 	}
@@ -98,7 +123,7 @@ CDllInjection::ImageLoadingCallBack(
 	CProcessList* pProcessList = NULL;
 	ProcessDataElement* pProcListElement = NULL;
 	UserKernelUtilsLib::IUtilsInt* pUtilsInt;
-	PUNICODE_STRING pKernel32Path;
+	PUNICODE_STRING pkernelBasePath;
 	// Logged and OldInjectionActive are used to log about InjectionActive policy changes but only once per change
 	static BOOL Logged = FALSE;
 	static INT OldInjectionActive = FALSE;
@@ -177,10 +202,6 @@ CDllInjection::ImageLoadingCallBack(
 		goto Leave;
 	}
 
-#ifdef LOG_OUT_TRIGUER_INJECTION
-	LOG_OUT(DBG_INFO, "**** Proc 0 **** %wZ FullImageName %wZ", &pProcListElement->m_ProccesDosExecName, FullImageName);
-#endif LOG_OUT_TRIGUER_INJECTION
-
 	if (!CHeckIfIsMainExec(pProcListElement))
 	{
 		goto Leave;
@@ -198,11 +219,17 @@ CDllInjection::ImageLoadingCallBack(
 		goto Leave;
 	}
 
-	if (CheckIfOnDebuging(pProcListElement))
+	if (ShouldSkeepInject(pProcListElement))
 	{
 		goto Leave;
 	}
-
+#ifdef IN_DEBUG_TESTING
+	LOG_OUT(DBG_INFO, "Debug allow inject to PID: 0x%x. Name: %S FullImageName %wZ",
+		(ULONG)pProcListElement->m_ProcessPid,
+		pProcListElement->m_ProccesDosExecName.Buffer,
+		FullImageName
+	);
+#endif
 	if (CheckIfSkeepHook(pProcListElement))
 	{
 		pProcListElement->m_DllinjectionParams.m_WhiteListProc = TRUE;
@@ -210,47 +237,14 @@ CDllInjection::ImageLoadingCallBack(
 		goto Leave;
 	}
 
-#ifdef LOG_OUT_TRIGUER_INJECTION
-	LOG_OUT(DBG_INFO, "**** Proc 1 **** %wZ FullImageName %wZ", &pProcListElement->m_ProccesDosExecName, FullImageName);
-#endif LOG_OUT_TRIGUER_INJECTION
+	pkernelBasePath = (pProcListElement->m_IsWow64) ? &m_kernelBaseWowPath : &m_kernelBasePath;
+	// Parse only the 'kernelBaseWow.dll' image load events, return immediately on other image load events;
 
-	pKernel32Path = (pProcListElement->m_IsWow64) ? &m_Kernel32PathWow : &m_Kernel32Path;
-
-	// Parse only the 'kernel32.dll' image load events, return immediately on other image load events;
-	// On wow process, check for KernelBase DLL
-	if (pUtilsInt->SafeSearchString(FullImageName, pKernel32Path, TRUE) == -1)
+	if (pUtilsInt->SafeSearchString(FullImageName, pkernelBasePath, TRUE) == -1)
 	{
-#ifdef LOG_OUT_TRIGUER_INJECTION
-		LOG_OUT(DBG_INFO, "**** Proc 2 **** %wZ FullImageName %wZ", &pProcListElement->m_ProccesDosExecName, FullImageName);
-#endif LOG_OUT_TRIGUER_INJECTION
-		// It is NOT Kernel32, but on wow check for kernelbase
-		if (pProcListElement->m_IsWow64)// 32 on wow
-		{
-#ifdef LOG_OUT_TRIGUER_INJECTION
-			LOG_OUT(DBG_INFO, "**** Proc 3 **** %wZ FullImageName %wZ", &pProcListElement->m_ProccesDosExecName, FullImageName);
-#endif LOG_OUT_TRIGUER_INJECTION
-
-			if (pUtilsInt->SafeSearchString(FullImageName, &m_kernelBaseWowPath, TRUE) == -1)
-			{
-#ifdef LOG_OUT_TRIGUER_INJECTION
-				LOG_OUT(DBG_INFO, "**** Proc 4 **** %wZ FullImageName %wZ", &pProcListElement->m_ProccesDosExecName, FullImageName);
-#endif LOG_OUT_TRIGUER_INJECTION
-
-				goto Leave;
-			}
-		}
-		else//Native 64 or 32
-		{
-#ifdef LOG_OUT_TRIGUER_INJECTION
-			LOG_OUT(DBG_INFO, "**** Proc 5 **** %wZ FullImageName %wZ", &pProcListElement->m_ProccesDosExecName, FullImageName);
-#endif LOG_OUT_TRIGUER_INJECTION
-			goto Leave;
-		}
+// 		LOG_OUT(DBG_INFO, "SafeSearchString(FullImageName, pkernelBasePath) %wZ FullImageName %wZ", &pProcListElement->m_ProccesDosExecName, FullImageName);
+		goto Leave;
 	}
-
-#ifdef LOG_OUT_TRIGUER_INJECTION
-	LOG_OUT(DBG_INFO, "**** Proc 6 **** %wZ FullImageName %wZ", &pProcListElement->m_ProccesDosExecName, FullImageName);
-#endif LOG_OUT_TRIGUER_INJECTION
 
 	if (pProcListElement->m_ProccesDosExecName.Buffer)
 	{
@@ -262,7 +256,7 @@ CDllInjection::ImageLoadingCallBack(
 		Buffer = pProcListElement->m_ProccesNtExecName.Buffer;
 	}
 
-	LOG_OUT(DBG_INFO, "Got trigerFullImageName %wZ", FullImageName);
+	LOG_OUT(DBG_INFO, "Got TrigerFullImageName %wZ", FullImageName);
 
 	LOG_OUT(DBG_INFO, "***Injecting DLL into the process with PID: 0x%x. Name: %S",
 		(ULONG)pProcListElement->m_ProcessPid,
@@ -322,7 +316,7 @@ BOOL CDllInjection::DoHook(
 			}
 			Acquaired = TRUE;
 			InterlockedIncrement(ApcPendingCount);
-			RetVal = ApcInject::RunApcInjection(
+			RetVal = ApcInject::InsertInjectionApc(
 				ExitRunDown,
 				ApcPendingCount,
 				pProcListElement,
@@ -417,48 +411,38 @@ BOOL CDllInjection::CHeckIfIsMainExec(
 	return TRUE;
 }
 
-BOOL CDllInjection::CheckIfOnDebuging(
+BOOL CDllInjection::ShouldSkeepInject(
 	ProcessDataElement* pProcListElement
 )
 {
 	BOOL RetVal = TRUE;
-	BOOL SkipInjection = FALSE;
-
-	auto ForDebug = [&]()->BOOL
-	{
-		UserKernelUtilsLib::IUtilsInt* pUtilsInt = UserKernelUtilsLib::IUtilsInt::GetInstance();
-		// if NOT PowerShell or Notepad DO NOT INJECT
-		BOOL RetVal = TRUE;
-		UNICODE_STRING TmpUniStr;
-		RtlInitUnicodeString(&TmpUniStr, L"powershell");
-
-		if (pUtilsInt->SafeSearchString(&pProcListElement->m_ProccesDosExecName, &TmpUniStr, TRUE) == -1)
-		{
-// 			RtlInitUnicodeString(&TmpUniStr, L"Notepad++");
-			RtlInitUnicodeString(&TmpUniStr, L"CFF-Explorer.exe");
-			if (pUtilsInt->SafeSearchString(&pProcListElement->m_ProccesDosExecName, &TmpUniStr, TRUE) == -1)
-			{
-				goto Leave;
-			}
-		}
-
-		LOG_OUT(DBG_INFO, "Debug allow inject to PID: 0x%x. Name: %S", (ULONG)pProcListElement->m_ProcessPid,
-			pProcListElement->m_ProccesDosExecName.Buffer);
-		RetVal = FALSE;
-	Leave:
-		return RetVal;
-	};
+#ifndef IN_DEBUG_TESTING
+	RetVal = FALSE; 
+#endif
+	UserKernelUtilsLib::IUtilsInt* pUtilsInt = UserKernelUtilsLib::IUtilsInt::GetInstance();
+	UNICODE_STRING TmpUniStr;
 
 #ifdef IN_DEBUG_TESTING
-	SkipInjection = ForDebug();
-#endif
-	if (SkipInjection)
+	for (UINT i=0;i<ARRAYSIZE(DebugDoInject);i++)
 	{
-		goto Leave;
+		RtlInitUnicodeString(&TmpUniStr, DebugDoInject[i]);
+		if (pUtilsInt->SafeSearchString(&pProcListElement->m_ProccesDosExecName, &TmpUniStr, TRUE) != -1)
+		{
+			RetVal = FALSE;
+			break;
+		}
 	}
-
-	RetVal = FALSE;
-Leave:
+#else
+	for (UINT i = 0; i < ARRAYSIZE(BlackListProcs); i++)
+	{
+		RtlInitUnicodeString(&TmpUniStr, BlackListProcs[i]);
+		if (pUtilsInt->SafeSearchString(&pProcListElement->m_ProccesDosExecName, &TmpUniStr, TRUE) != -1)
+		{
+			RetVal = TRUE;
+			break;
+		}
+	}
+#endif
 	return RetVal;
 }
 

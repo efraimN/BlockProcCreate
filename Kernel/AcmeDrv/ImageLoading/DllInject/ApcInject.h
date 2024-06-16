@@ -7,7 +7,7 @@ class ApcInject
 {
 public:
 	static
-	BOOL RunApcInjection(
+	BOOL InsertInjectionApc(
 		PEX_RUNDOWN_REF ExitRunDown,
 		volatile LONG* ApcPendingCount,
 		ProcessDataElement* pProcListElement,
@@ -27,7 +27,7 @@ private:
 
 	static
 	BOOL
-	RunApcCommon(
+	InsertApcCommon(
 		PAPC_PARAMS pAPC_PARAMS,
 		IApcLib** ppIApcLib,
 		KPROCESSOR_MODE eProcessorMode,
@@ -71,7 +71,7 @@ private:
 	);
 
 	static
-	BOOL RunUserApc(
+	BOOL InsertUserApc(
 		PAPC_PARAMS pAPC_PARAMS,
 		PFN_NORMAL_ROUTINE pNormalUsermodeRoutine,
 		PVOID NormalRoutineCOntext
@@ -102,4 +102,3 @@ private:
 	);
 
 };
-

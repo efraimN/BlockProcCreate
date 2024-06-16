@@ -5,7 +5,7 @@
 
 #include <DriverEntryLib.h>
 
-#define LOG_APC_ROUTINES
+// #define LOG_APC_ROUTINES
 
 /// Inject apc is used to map the shelcode into the target process
 // Is a kernel mode normal apc, that runs the NormalRutine in kernel passive mode
@@ -144,9 +144,22 @@ ApcInject::InjectApcNormalRutine(
 
 
 	{
-		WCHAR DllName[] =  L"c:\\drivers\\hdll.dll" ;
+		WCHAR DllName[] = L"c:\\drivers\\Acmedll.dll";
+		WCHAR DllNameWow[] = L"c:\\drivers\\Acmedll32.dll";
+		PWCHAR pDllName;
+		SIZE_T UserModeDllPathLeng;
+		SIZE_T DllNamePathLeng;
+
+		pDllName = DllName;
+		if (pProcessDataElement->m_IsWow64)
+		{
+			pDllName = DllNameWow;
+		}
+		DllNamePathLeng = wcslen(pDllName) + 1;
+		DllNamePathLeng *= 2;
+		UserModeDllPathLeng = DllNamePathLeng;
+
 		PWSTR UserModeDllPath = NULL;
-		size_t UserModeDllPathLeng = sizeof(DllName);
 		NTSTATUS status;
 
 		status = ZwAllocateVirtualMemory(
@@ -162,17 +175,17 @@ ApcInject::InjectApcNormalRutine(
 			goto Leave;
 		}
 
-		RtlCopyMemory(UserModeDllPath, DllName, sizeof(DllName));
+		RtlCopyMemory(UserModeDllPath, pDllName, DllNamePathLeng);
 		ShellCodeContextData = UserModeDllPath;
 	}
 
-	if (!RunUserApc(
+	if (!InsertUserApc(
 		pAPC_PARAMS,
 		(PFN_NORMAL_ROUTINE)pShellCodeApcProcAddress,
 		ShellCodeContextData
 	))
 	{
-		LOG_OUT(DBG_INFO, L"error on RunUserApcfor Proc %wZ",
+		LOG_OUT(DBG_INFO, L"error on InsertUserApc for Proc %wZ",
 			&pProcessDataElement->m_ProccesDosExecName);
 		goto Leave;
 	}
@@ -191,10 +204,14 @@ Leave:
 		{
 			delete 	pAPC_PARAMS;
 		}
+		if (ShellCodeContextData)
+		{
+			// TODO deallocate the memory
+		}
 	}
 }
 
-BOOL ApcInject::RunApcInjection(
+BOOL ApcInject::InsertInjectionApc(
 	PEX_RUNDOWN_REF ExitRunDown,
 	volatile LONG* ApcPendingCount,
 	ProcessDataElement* pProcListElement,
@@ -211,7 +228,7 @@ BOOL ApcInject::RunApcInjection(
 	};
 	PROC_ENTRY;
 
-	LOG_OUT(DBG_INFO, "Called RunApcInjection for Proc %wZ", &pProcListElement->m_ProccesDosExecName);
+	LOG_OUT(DBG_INFO, "Called InsertInjectionApc for Proc %wZ", &pProcListElement->m_ProccesDosExecName);
 
 	PAPC_PARAMS pAPC_PARAMS;
 	pAPC_PARAMS = new ('pCpA') APC_PARAMS;
@@ -232,7 +249,7 @@ BOOL ApcInject::RunApcInjection(
 	pProcListElement->m_DllinjectionParams.m_InjectionUserAPC = NULL;
 	pProcListElement->m_DllinjectionParams.m_InjectionKernelAPC = NULL;
 
-	if(!RunApcCommon(
+	if(!InsertApcCommon(
 		pAPC_PARAMS,
 		&pProcListElement->m_DllinjectionParams.m_InjectionKernelAPC,
 		KernelMode,
@@ -332,7 +349,6 @@ ApcInject::UserApcKernelRoutine(
 	};
 	PROC_ENTRY;
 	BOOL Success = FALSE;
-	NTSTATUS status;
 	PAPC_PARAMS pAPC_PARAMS = (PAPC_PARAMS)*SystemArgument1;
 	*SystemArgument1 = NULL;
 	ProcessDataElement* pProcessDataElement = pAPC_PARAMS->pProcListElement;
@@ -345,32 +361,43 @@ ApcInject::UserApcKernelRoutine(
 		goto Leave;
 	}
 
-	// Fix Wow64 APC
-	LOG_OUT(DBG_DEBUG, "Before WOW64 Wrapping: NormalRoutine = 0x%p ; Arguments: 0x%p and 0x%p ; NormalContext = 0x%p.", *NormalRoutine, *SystemArgument1, *SystemArgument2, *NormalContext);
-		status = PsWrapApcWow64Thread(NormalContext, (PVOID*)NormalRoutine);
-	if (!NT_SUCCESS(status))
+		LOG_OUT(DBG_DEBUG, "UserApcKernelRoutine: NormalRoutine = 0x%p ; Arguments: 0x%p and 0x%p ; NormalContext = 0x%p.", *NormalRoutine, *SystemArgument1, *SystemArgument2, *NormalContext);
+#ifdef _M_X64
+	if (PsGetProcessWow64Process(PsGetCurrentProcess()) != NULL)
 	{
-		LOG_OUT(DBG_DEBUG, "Failed to call PsWrapApcWow64Thread in the APC's KernelRoutine - status code: 0x%x.", status);
-		// TODO in this case we should insert another apc to remove the actual copy of the dll and user data
-		// It can't be done here coz the IRQ is too high
-		goto Leave;
+		NTSTATUS status;
+		// Fix Wow64 APC the apc on 64 bits is 64 bit regardless if the proc is 32 or 64.
+		// This function fixes the adders if it is a 32 bit address, (only on 64 bit drivers) so the 64 bit apc can call the 32 bit code, 
+		// Also this function always returns succeed....
+		status = PsWrapApcWow64Thread(NormalContext, (PVOID*)NormalRoutine);
+		if (!NT_SUCCESS(status))
+		{
+			// Well this function always returns succeed....
+			// We should never get here unless MSFT changes the interna code of the PsWrapApcWow64Thread function
+			LOG_OUT(DBG_DEBUG, "Failed to call PsWrapApcWow64Thread in the APC's KernelRoutine - status code: 0x%x.", status);
+			// TODO in this case we should insert another apc to remove the actual copy of the dll and user data
+			// It can't be done here coz the IRQ is too high
+			// But again... 
+			// it is very unlikely to get here
+			goto Leave;
+		}
+		LOG_OUT(DBG_DEBUG, "After WOW64 Wrapping: NormalRoutine = 0x%p ; Arguments: 0x%p and 0x%p ; NormalContext = 0x%p.", *NormalRoutine, *SystemArgument1, *SystemArgument2, *NormalContext);
 	}
-	LOG_OUT(DBG_DEBUG, "After WOW64 Wrapping: NormalRoutine = 0x%p ; Arguments: 0x%p and 0x%p ; NormalContext = 0x%p.", *NormalRoutine, *SystemArgument1, *SystemArgument2, *NormalContext);
-
+#endif
 	Success = TRUE;
 Leave:
 	if (!Success)
 	{
 		*NormalRoutine = NULL;
 	}
-	// should clean here coz the Userapc runs in user mode and cant acces this data
+	// should clean here coz the User-Apc runs in user mode and can't access this data
 	UserApcCleanup(pAPC_PARAMS);
 	InterlockedDecrement(pAPC_PARAMS->ApcPendingCount);
 	ExReleaseRundownProtection(pAPC_PARAMS->ExitRunDown);
 	delete 	pAPC_PARAMS;
 }
 
-BOOL ApcInject::RunUserApc(
+BOOL ApcInject::InsertUserApc(
 	PAPC_PARAMS pAPC_PARAMS,
 	PFN_NORMAL_ROUTINE pNormalUsermodeRoutine,
 	PVOID NormalRoutineContext
@@ -387,11 +414,11 @@ BOOL ApcInject::RunUserApc(
 	};
 	PROC_ENTRY;
 
-	LOG_OUT(DBG_INFO, "RunUserApc");
+	LOG_OUT(DBG_INFO, "InsertUserApc");
 #endif // LOG_APC_ROUTINES
 	BOOL RetVal = FALSE;
 
-	if (!RunApcCommon(
+	if (!InsertApcCommon(
 		pAPC_PARAMS,
 		&pAPC_PARAMS->pProcListElement->m_DllinjectionParams.m_InjectionUserAPC,
 		UserMode,
@@ -413,7 +440,7 @@ Leave:
 	return RetVal;
 }
 
-BOOL ApcInject::RunApcCommon(
+BOOL ApcInject::InsertApcCommon(
 	PAPC_PARAMS pAPC_PARAMS,
 	IApcLib** ppIApcLib,
 	KPROCESSOR_MODE eProcessorMode,
@@ -424,7 +451,7 @@ BOOL ApcInject::RunApcCommon(
 )
 {
 #ifdef LOG_APC_ROUTINES
-	LOG_OUT(DBG_INFO, "RunApcCommon");
+	LOG_OUT(DBG_INFO, "InsertApcCommon");
 #endif // LOG_APC_ROUTINES
 	BOOL RetVal = FALSE;
 	IApcLib* pIApcLib = NULL;
@@ -434,7 +461,7 @@ BOOL ApcInject::RunApcCommon(
 	pIApcLib = IApcLib::GetNewInstance();
 	if (!pIApcLib)
 	{
-		LOG_OUT(DBG_ERROR, "RunApcCommon IApcLib::GetNewInstance failed Not injecting to process %S",
+		LOG_OUT(DBG_ERROR, "InsertApcCommon IApcLib::GetNewInstance failed Not injecting to process %S",
 			pAPC_PARAMS->pProcListElement->m_ProccesDosExecName.Buffer);
 		goto Leave;
 	}
@@ -447,7 +474,7 @@ BOOL ApcInject::RunApcCommon(
 		NormalRoutine
 	))
 	{
-		LOG_OUT(DBG_ERROR, "RunApcCommon pIApcLib->Start failed Not injecting to process %S",
+		LOG_OUT(DBG_ERROR, "InsertApcCommon pIApcLib->Start failed Not injecting to process %S",
 			pAPC_PARAMS->pProcListElement->m_ProccesDosExecName.Buffer);
 		goto Leave;
 	}
@@ -460,7 +487,7 @@ BOOL ApcInject::RunApcCommon(
 		IO_NO_INCREMENT
 	))
 	{
-		LOG_OUT(DBG_ERROR, "RunApcCommon pIApcLib->InsertApc failed Not injecting to process %S",
+		LOG_OUT(DBG_ERROR, "InsertApcCommon pIApcLib->InsertApc failed Not injecting to process %S",
 			pAPC_PARAMS->pProcListElement->m_ProccesDosExecName.Buffer);
 		goto Leave;
 	}

@@ -36,7 +36,7 @@ BOOL CProcessList::InitElement(ProcessDataElement* Element)
 
 	Element->m_DllinjectionParams.m_InjectStarted = FALSE;
 	Element->m_DllinjectionParams.m_ImageExecutableLoaded = FALSE;
-	Element->m_DllinjectionParams.m_Kernel32LoaderThread = FALSE;
+	Element->m_DllinjectionParams.m_Kernel32LoaderThread = NULL;
 	Element->m_DllinjectionParams.m_InjectionUserAPC = NULL;
 	Element->m_DllinjectionParams.m_InjectionKernelAPC = NULL;
 	Element->m_DllinjectionParams.m_WhiteListProc = FALSE;

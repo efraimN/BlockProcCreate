@@ -222,6 +222,11 @@ _CppApcKernelRoutine(
 			DrvObj = NULL;
 		}
 	}
+	else
+	{
+		// is a usermode routine, there will be NOT a kernel NormalRoutine, will be a usermode one
+		*SystemArgument2 = pPAPC_RUN_PARAMS->pvSystemArgument2;
+	}
 
 	return DrvObj;
 }

@@ -53,7 +53,7 @@ private:
 
 	// This function is added only as a debug aid It usually will return FALSE
 	// Unless compiled to inject on test process only
-	BOOL CheckIfOnDebuging(
+	BOOL ShouldSkeepInject(
 		ProcessDataElement* pProcListElement
 	);
 
@@ -70,9 +70,10 @@ private:
 	LONG volatile m_ApcPendingCount;
 
 	BOOL m_Inited;
-	UNICODE_STRING m_Kernel32Path;
-	UNICODE_STRING m_Kernel32PathWow;
+// 	UNICODE_STRING m_Kernel32Path;
+// 	UNICODE_STRING m_Kernel32PathWow;
 	UNICODE_STRING m_kernelBaseWowPath;
+	UNICODE_STRING m_kernelBasePath;
 
 	WCHAR m_WowDllPAth[MAX_PATH];
 	WCHAR m_NormalDllPath[MAX_PATH];
