@@ -57,7 +57,7 @@ private:
 		ProcessDataElement* pProcListElement
 	);
 
-	BOOL DoHook(
+	BOOL DoInjection(
 		PEX_RUNDOWN_REF ExitRunDown,
 		volatile LONG* ApcPendingCount,
 		PETHREAD Kernel32LoaderThread,

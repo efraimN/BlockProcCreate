@@ -1,6 +1,7 @@
 #include "Precompiled.h"
 #include <WppIncludes.h>
 
+#include "DoHooks.h"
 WCHAR ProcName[1024];
 
 BOOL
@@ -76,6 +77,7 @@ DllMain(
 
 			if (DoHooks)
 			{
+				HooksInit();
 			}
 		}
 		break;
@@ -95,6 +97,11 @@ DllMain(
 		case DLL_PROCESS_DETACH:
 		{
 
+#ifdef _DEBUG
+			// disable all hooks but only on debug to check for memory leaks.
+			// since this takes time, and is not a must since if this dll is unloaded, the process is anyway finishing dont do it on release
+			HooksStop();
+#endif
 			LOG_OUT(DBG_INFO, "WppStop Called %S", ProcName);
 			WPP_CLEANUP();
 		}

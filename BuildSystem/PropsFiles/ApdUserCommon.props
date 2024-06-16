@@ -43,7 +43,7 @@ ren $(OutDir)$(TargetName)$(TargetExt)x $(TargetName)$(TargetExt)
       <AssembledCodeListingFile>$(IntDir)%(Filename)</AssembledCodeListingFile>
     </MASM>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(IntDir);$(ProjectDir);$(SolutionDir)UserCommon\Includes;$(SolutionDir)BuildSystem\Includes;$(SolutionDir)KernelUserCommon\Includes;$(SolutionDir)KernelUserCommon\Includes\IUserKernelUtils;$(SolutionDir)Third_party;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(IntDir);$(ProjectDir);$(SolutionDir)UserCommon\Includes;$(SolutionDir)BuildSystem\Includes;$(SolutionDir)KernelUserCommon\Includes;$(SolutionDir)KernelUserCommon\Includes\IUserKernelUtils;$(SolutionDir)3rd_party;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(DriverType)'!=''">$(SolutionDir)Kernel\Libs\Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ProgramDataBaseFileName>$(IntDir)$(ProjectName).pdb</ProgramDataBaseFileName>
@@ -63,15 +63,18 @@ ren $(OutDir)$(TargetName)$(TargetExt)x $(TargetName)$(TargetExt)
       <PreprocessorDefinitions Condition="('$(DriverType)'=='') and ('$(Platform)'=='Win32')">WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="('$(DriverType)'=='') and ('$(TargetExt)'=='.lib')">_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks Condition="('$(DriverType)'=='') and ('$(Configuration)'=='Debug')">StackFrameRuntimeCheck</BasicRuntimeChecks>
-      <BasicRuntimeChecks Condition="('$(DriverType)'=='') and ('$(Configuration)'=='Release')"></BasicRuntimeChecks>
-      <BasicRuntimeChecks Condition="('$(DriverType)'!='')"></BasicRuntimeChecks>
-      <Optimization Condition="('$(DriverType)'=='') and ('$(Configuration)'=='Debug')"></Optimization>
+      <BasicRuntimeChecks Condition="('$(DriverType)'=='') and ('$(Configuration)'=='Release')">
+      </BasicRuntimeChecks>
+      <BasicRuntimeChecks Condition="('$(DriverType)'!='')">
+      </BasicRuntimeChecks>
+      <Optimization Condition="('$(DriverType)'=='') and ('$(Configuration)'=='Debug')">
+      </Optimization>
       <Optimization Condition="('$(DriverType)'=='') and ('$(Configuration)'=='Release')">MaxSpeed</Optimization>
       <Optimization Condition="'$(DriverType)'!=''">MaxSpeed</Optimization>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <RuntimeLibrary Condition="'$(Configuration)'=='Release'">MultiThreadedDLL</RuntimeLibrary>
-      <RuntimeLibrary Condition="'$(Configuration)'=='Debug'">MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary Condition="'$(Configuration)'=='Release'">MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary Condition="'$(Configuration)'=='Debug'">MultiThreadedDebug</RuntimeLibrary>
       <CompileAs>Default</CompileAs>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <CreateHotpatchableImage>false</CreateHotpatchableImage>

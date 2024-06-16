@@ -272,7 +272,7 @@ CDllInjection::ImageLoadingCallBack(
 	this is why we must use here an Inject Apc and then a "run" APC or a system thread
 	*/
 
-	if (!DoHook(
+	if (!DoInjection(
 		&CProcessList::m_ExitRunDown,
 		&m_ApcPendingCount,
 		PsGetCurrentThread(),
@@ -281,7 +281,7 @@ CDllInjection::ImageLoadingCallBack(
 		ImageInfo->ImageBase
 	))
 	{
-		LOG_OUT(DBG_ERROR, "***FAILED DoHook DLL into the process with PID: 0x%x. Name: %S",
+		LOG_OUT(DBG_ERROR, "***FAILED DoInjection DLL into the process with PID: 0x%x. Name: %S",
 			(ULONG)pProcListElement->m_ProcessPid,
 			Buffer);
 		goto Leave;
@@ -291,7 +291,7 @@ Leave:
 	return;
 }
 
-BOOL CDllInjection::DoHook(
+BOOL CDllInjection::DoInjection(
 	PEX_RUNDOWN_REF ExitRunDown,
 	volatile LONG* ApcPendingCount,
 	PETHREAD Kernel32LoaderThread,

@@ -64,7 +64,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>ntdll.lib</AdditionalDependencies>
+      <AdditionalDependencies>User32.lib;libMinHook.lib;kernel32.lib;ntdll.lib</AdditionalDependencies>
       <AdditionalOptions>/NODEFAULTLIB:MSVCRTD %(AdditionalOptions)</AdditionalOptions>
       <AdditionalLibraryDirectories>$(MINHOOK_DIR)libs\msvc$(PlatformToolsetVersion)\$(Configuration) Dynamic;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>$(ProjectName).def</ModuleDefinitionFile>
@@ -79,7 +79,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>ntdll.lib</AdditionalDependencies>
+      <AdditionalDependencies>User32.lib;libMinHook.lib;kernel32.lib;ntdll.lib</AdditionalDependencies>
       <AdditionalOptions>/NODEFAULTLIB:MSVCRTD %(AdditionalOptions)</AdditionalOptions>
       <AdditionalLibraryDirectories>$(MINHOOK_DIR)libs\msvc$(PlatformToolsetVersion)\$(Configuration) Dynamic;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>$(ProjectName).def</ModuleDefinitionFile>
@@ -95,7 +95,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>ntdll.lib</AdditionalDependencies>
+      <AdditionalDependencies>User32.lib;libMinHook.lib;kernel32.lib;ntdll.lib</AdditionalDependencies>
       <AdditionalOptions>/NODEFAULTLIB:MSVCRTD %(AdditionalOptions)</AdditionalOptions>
       <ModuleDefinitionFile>$(ProjectName).def</ModuleDefinitionFile>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -111,7 +111,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>ntdll.lib</AdditionalDependencies>
+      <AdditionalDependencies>User32.lib;libMinHook.lib;kernel32.lib;ntdll.lib</AdditionalDependencies>
       <AdditionalOptions>/NODEFAULTLIB:MSVCRTD %(AdditionalOptions)</AdditionalOptions>
       <ModuleDefinitionFile>$(ProjectName).def</ModuleDefinitionFile>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -119,6 +119,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DllMain.cpp" />
+    <ClCompile Include="DoHooks.cpp" />
     <ClCompile Include="Precompiled.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -127,6 +128,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DoHooks.h" />
     <ClInclude Include="Precompiled.h" />
     <ClInclude Include="Resources\resource.h" />
   </ItemGroup>
