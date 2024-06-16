@@ -1,0 +1,8 @@
+
+#ifdef RC_INVOKED
+1        24             "resources\\App.manifest"
+#endif
+
+#include <GenResource.rc1>
+#include "Resource.rc"
+//#include MesageLoggerIncludes
