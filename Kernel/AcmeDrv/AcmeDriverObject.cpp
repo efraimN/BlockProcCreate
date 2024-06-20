@@ -44,7 +44,6 @@ NTSTATUS CMyDriverObject::DoStartStop(BOOL Start_Stop)
 		}
 
 		status = STATUS_SUCCESS;
-		goto Leave;
 	Leave:
 		return status;
 	};

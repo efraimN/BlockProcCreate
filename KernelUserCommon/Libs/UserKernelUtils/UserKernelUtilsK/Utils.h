@@ -2,6 +2,7 @@
 #include <IUserKernelUtils.h>
 class Utils  : public UserKernelUtilsLib::IUtilsInt
 {
+public:
 	friend IUtilsInt;
 	virtual BOOL IsProcessWow64(
 		_In_ HANDLE ProcessHandle,

@@ -111,6 +111,7 @@ namespace KernelUtilsLib
 
 		delete pProcessUtils;
 	}
+	
 	BOOLEAN
 	NTAPI
 	CProcessUtils::PsIsProtectedProcessLight(

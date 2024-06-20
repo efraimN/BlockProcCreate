@@ -69,10 +69,10 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)ProcessCreation;$(ProjectDir)ImageLoading;$(ProjectDir)ImageLoading\DllInject;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)ProcessCreation;$(ProjectDir)ImageLoading;$(ProjectDir)ImageLoading\DllInject;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)ProcessCreation;$(ProjectDir)ImageLoading;$(ProjectDir)ImageLoading\DllInject;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)ProcessCreation;$(ProjectDir)ImageLoading;$(ProjectDir)ImageLoading\DllInject;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ProcessCreation;ImageLoading;ImageLoading\DllInject;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ProcessCreation;ImageLoading;ImageLoading\DllInject;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ProcessCreation;ImageLoading;ImageLoading\DllInject;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ProcessCreation;ImageLoading;ImageLoading\DllInject;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ApcLib.slib;UserKernelUtilsK.slib;KernelUtilsLib.slib;DriverEntryLib.slib;KernelCrtLib.slib;%(AdditionalDependencies)</AdditionalDependencies>
