@@ -1,0 +1,17 @@
+1) copy AcmeDrv.sys, AcmeDll32.dll, AcmeDll.dll to a folder named:
+C:\Drivers\AcmeDrv.sys
+
+2) run the Acme.reg registry file to add the driver service.
+
+
+3) since the driver is not MSFT signed, need to put the machine in test mode:
+at an admin command promt run "Bcdedit.exe -set TESTSIGNING ON"
+
+4) restart the machine
+
+5) to start the driver:
+at a command promt run sc start acme
+
+6) to stop the driver:
+at a command promt run sc stop acme
+ 
