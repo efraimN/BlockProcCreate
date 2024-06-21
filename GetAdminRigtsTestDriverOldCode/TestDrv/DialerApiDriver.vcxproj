@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Vista_Debug|Win32">
+      <Configuration>Vista_Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Vista|Win32">
+      <Configuration>Vista</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="WinXP_Debug|Win32">
+      <Configuration>WinXP_Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="WinXP|Win32">
+      <Configuration>WinXP</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{7F391BDA-5BB7-4929-9830-D9A1883D21D1}</ProjectGuid>
+    <Keyword>MakeFileProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='WinXP_Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='WinXP|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Vista|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Vista_Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='WinXP_Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='WinXP|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Vista|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Vista_Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>16.0.33423.256</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Vista_Debug|Win32'">
+    <OutDir>.\wlh\</OutDir>
+    <IntDir>.\wlh\</IntDir>
+    <NMakeBuildCommandLine>.\compile.bat wlh /D_DEBUG  clean</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>.\compile.bat wlh /D_DEBUG  clean </NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine />
+    <NMakeOutput>..\DialerApiDriverVis.sys</NMakeOutput>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Vista|Win32'">
+    <OutDir>.\wlh\</OutDir>
+    <IntDir>.\wlh\</IntDir>
+    <NMakeBuildCommandLine>.\compile.bat wlh /DNDEBUG</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>.\compile.bat wlh /DNDEBUG clean</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine />
+    <NMakeOutput>..\DialerApiDriverVis.sys</NMakeOutput>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='WinXP|Win32'">
+    <OutDir>.\WXP\</OutDir>
+    <IntDir>.\WXP\</IntDir>
+    <NMakeBuildCommandLine>.\compile.bat Wlh /DNDEBUG clean</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>.\compile.bat Wlh /DNDEBUG clean </NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine />
+    <NMakeOutput>..\DialerApiDriverxp.sys</NMakeOutput>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='WinXP_Debug|Win32'">
+    <OutDir>.\WXP\</OutDir>
+    <IntDir>.\WXP\</IntDir>
+    <NMakeBuildCommandLine>.\compile.bat Wlh /DDBG_ clean</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>.\compile.bat Wlh /DDBG_ clean </NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine />
+    <NMakeOutput>..\DialerApiDriverxp.sys</NMakeOutput>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="dbg.c" />
+    <ClCompile Include="TestDriver.cpp" />
+    <ClCompile Include="message.cpp" />
+    <ClCompile Include="Precompile.inc.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="dbg.h" />
+    <ClInclude Include="TestDriver.h" />
+    <ClInclude Include="message.h" />
+    <ClInclude Include="oem.h" />
+    <ClInclude Include="Precompile.inc.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Wlh\Precompile.h" />
+    <ClInclude Include="Wxp\Precompile.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="COMPILE.BAT" />
+    <None Include="messages.mc" />
+    <None Include="resource.rc1" />
+    <None Include="Sources.inc" />
+    <None Include="Wlh\makefile" />
+    <None Include="Wlh\Sources" />
+    <None Include="wxp\makefile" />
+    <None Include="wxp\Sources" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DialerApiDriver.RC" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

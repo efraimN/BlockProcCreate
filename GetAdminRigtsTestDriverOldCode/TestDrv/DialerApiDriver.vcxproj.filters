@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="source files">
+      <UniqueIdentifier>{6017e19d-d545-4753-b68d-32c7197af080}</UniqueIdentifier>
+      <Extensions>*.c</Extensions>
+    </Filter>
+    <Filter Include="include files">
+      <UniqueIdentifier>{b0c9e24f-d2b8-492c-9179-3c5cb4636c62}</UniqueIdentifier>
+      <Extensions>*.h</Extensions>
+    </Filter>
+    <Filter Include="bat">
+      <UniqueIdentifier>{79319d18-cb67-4115-bc9c-40dbfbe6a239}</UniqueIdentifier>
+      <Extensions>bat</Extensions>
+    </Filter>
+    <Filter Include="TargetOs">
+      <UniqueIdentifier>{a1a24610-d638-4550-99ab-5d7b5cedc0eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TargetOs\Wxp">
+      <UniqueIdentifier>{9512bd6f-0be5-4bb2-8134-f9166548c21b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TargetOs\Vista">
+      <UniqueIdentifier>{952bcade-37b9-4415-80aa-c794fccdd454}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{0bc9f023-f646-44ae-bd9b-68557a17697f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dbg.c">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestDriver.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="message.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+    <ClCompile Include="Precompile.inc.cpp">
+      <Filter>source files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="dbg.h">
+      <Filter>include files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestDriver.h">
+      <Filter>include files</Filter>
+    </ClInclude>
+    <ClInclude Include="message.h">
+      <Filter>include files</Filter>
+    </ClInclude>
+    <ClInclude Include="Precompile.inc.h">
+      <Filter>include files</Filter>
+    </ClInclude>
+    <ClInclude Include="Wxp\Precompile.h">
+      <Filter>TargetOs\Wxp</Filter>
+    </ClInclude>
+    <ClInclude Include="Wlh\Precompile.h">
+      <Filter>TargetOs\Vista</Filter>
+    </ClInclude>
+    <ClInclude Include="oem.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="COMPILE.BAT">
+      <Filter>bat</Filter>
+    </None>
+    <None Include="Sources.inc">
+      <Filter>TargetOs</Filter>
+    </None>
+    <None Include="wxp\makefile">
+      <Filter>TargetOs\Wxp</Filter>
+    </None>
+    <None Include="wxp\Sources">
+      <Filter>TargetOs\Wxp</Filter>
+    </None>
+    <None Include="Wlh\makefile">
+      <Filter>TargetOs\Vista</Filter>
+    </None>
+    <None Include="Wlh\Sources">
+      <Filter>TargetOs\Vista</Filter>
+    </None>
+    <None Include="messages.mc">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="resource.rc1">
+      <Filter>Resources</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DialerApiDriver.RC">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
